@@ -2,21 +2,24 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <groupId>com.knubisoft</groupId>
         <artifactId>knubisoft-pirozochki</artifactId>
         <version>1.0.0</version>
     </parent>
+
     <groupId>com.knubisoft</groupId>
     <artifactId>config</artifactId>
     <version>1.0.0</version>
+
     <name>config</name>
     <description>config</description>
+
     <properties>
-        <java.version>1.8</java.version>
-        <spring.version>2.6.4</spring.version>
         <spring-cloud.version>2021.0.1</spring-cloud.version>
     </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.cloud</groupId>

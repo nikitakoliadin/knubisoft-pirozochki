@@ -18,7 +18,6 @@
     <description>application</description>
 
     <properties>
-        <spring-boot-admin.version>3.0.0-M4</spring-boot-admin.version>
         <spring.spring-boot-admin-starter-client.version>2.6.2</spring.spring-boot-admin-starter-client.version>
     </properties>
 
@@ -45,11 +44,6 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-config-client</artifactId>
-            <version>3.0.1</version>
         </dependency>
 
     </dependencies>

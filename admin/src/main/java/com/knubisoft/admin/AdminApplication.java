@@ -7,7 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Configuration;
 
 @EnableAdminServer
-@Configuration
 @SpringBootApplication(exclude = AdminServerHazelcastAutoConfiguration.class)
 public class AdminApplication {
 
