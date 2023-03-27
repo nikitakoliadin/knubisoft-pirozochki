@@ -9,9 +9,9 @@
         <version>1.0.0</version>
     </parent>
 
-    <groupId>com.knubisoft</groupId>
     <artifactId>admin</artifactId>
     <version>1.0.0</version>
+    <packaging>jar</packaging>
 
     <name>admin</name>
     <description>admin</description>
@@ -20,6 +20,16 @@
         <java.version>1.8</java.version>
         <spring-boot-admin.version>3.0.0-M4</spring-boot-admin.version>
         <spring.spring-boot-admin-starter-server.version>2.6.2</spring.spring-boot-admin-starter-server.version>
+
+        <mainClass>com.knubisoft.admin.AdminApplication</mainClass>
+        <!-- JAR plugin -->
+        <jar-plugin.addClasspath>true</jar-plugin.addClasspath>
+        <jar-plugin.classpathPrefix>lib/</jar-plugin.classpathPrefix>
+
+        <!-- Dependency plugin -->
+        <dependency-plugin.overWriteReleases>false</dependency-plugin.overWriteReleases>
+        <dependency-plugin.overWriteSnapshots>false</dependency-plugin.overWriteSnapshots>
+        <dependency-plugin.overWriteIfNewer>true</dependency-plugin.overWriteIfNewer>
     </properties>
 
     <dependencies>
@@ -35,5 +45,44 @@
         </dependency>
 
     </dependencies>
+
+    <build>
+        <plugins>
+            <!-- JAR plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>${jar-plugin.addClasspath}</addClasspath>
+                            <classpathPrefix>${jar-plugin.classpathPrefix}</classpathPrefix>
+                            <mainClass>${mainClass}</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+            <!-- Dependency plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <configuration>
+                    <outputDirectory>${project.build.directory}/lib/</outputDirectory>
+                    <overWriteReleases>${dependency-plugin.overWriteReleases}</overWriteReleases>
+                    <overWriteSnapshots>${dependency-plugin.overWriteSnapshots}</overWriteSnapshots>
+                    <overWriteIfNewer>${dependency-plugin.overWriteIfNewer}</overWriteIfNewer>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

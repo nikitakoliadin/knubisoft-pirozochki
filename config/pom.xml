@@ -9,15 +9,24 @@
         <version>1.0.0</version>
     </parent>
 
-    <groupId>com.knubisoft</groupId>
     <artifactId>config</artifactId>
     <version>1.0.0</version>
+    <packaging>jar</packaging>
 
     <name>config</name>
     <description>config</description>
 
     <properties>
         <spring-cloud.version>2021.0.1</spring-cloud.version>
+        <mainClass>com.knubisoft.config.ConfigApplication</mainClass>
+        <!-- JAR plugin -->
+        <jar-plugin.addClasspath>true</jar-plugin.addClasspath>
+        <jar-plugin.classpathPrefix>lib/</jar-plugin.classpathPrefix>
+
+        <!-- Dependency plugin -->
+        <dependency-plugin.overWriteReleases>false</dependency-plugin.overWriteReleases>
+        <dependency-plugin.overWriteSnapshots>false</dependency-plugin.overWriteSnapshots>
+        <dependency-plugin.overWriteIfNewer>true</dependency-plugin.overWriteIfNewer>
     </properties>
 
     <dependencies>
@@ -40,9 +49,39 @@
 
     <build>
         <plugins>
+            <!-- JAR plugin -->
             <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>${jar-plugin.addClasspath}</addClasspath>
+                            <classpathPrefix>${jar-plugin.classpathPrefix}</classpathPrefix>
+                            <mainClass>${mainClass}</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+            <!-- Dependency plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <configuration>
+                    <outputDirectory>${project.build.directory}/lib/</outputDirectory>
+                    <overWriteReleases>${dependency-plugin.overWriteReleases}</overWriteReleases>
+                    <overWriteSnapshots>${dependency-plugin.overWriteSnapshots}</overWriteSnapshots>
+                    <overWriteIfNewer>${dependency-plugin.overWriteIfNewer}</overWriteIfNewer>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

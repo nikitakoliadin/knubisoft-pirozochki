@@ -24,6 +24,16 @@
         <module>config</module>
     </modules>
 
+    <build>
+        <plugins>
+            <!-- Spring Boot plugin -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
     <properties>
         <java.vesion>1.8</java.vesion>
         <spring.version>2.6.4</spring.version>
@@ -69,4 +79,5 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
 </project>
