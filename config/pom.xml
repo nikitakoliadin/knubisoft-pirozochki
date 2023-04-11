@@ -17,7 +17,6 @@
     <description>config</description>
 
     <properties>
-        <spring-cloud.version>2021.0.1</spring-cloud.version>
         <mainClass>com.knubisoft.config.ConfigApplication</mainClass>
         <!-- JAR plugin -->
         <jar-plugin.addClasspath>true</jar-plugin.addClasspath>
@@ -35,12 +34,13 @@
             <artifactId>spring-cloud-config-server</artifactId>
         </dependency>
     </dependencies>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
-                <version>${spring-cloud.version}</version>
+                <version>${spring.spring-cloud-dependencies.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
