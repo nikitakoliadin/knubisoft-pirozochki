@@ -29,6 +29,9 @@
         <dependency-plugin.overWriteReleases>false</dependency-plugin.overWriteReleases>
         <dependency-plugin.overWriteSnapshots>false</dependency-plugin.overWriteSnapshots>
         <dependency-plugin.overWriteIfNewer>true</dependency-plugin.overWriteIfNewer>
+
+        <!-- Other dependencies -->
+        <org.bouncycastle.version>1.58</org.bouncycastle.version>
     </properties>
 
     <dependencies>
@@ -68,6 +71,12 @@
             <version>${spring-boot-starter-data-mongodb.version}</version>
         </dependency>
 
+
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcpkix-jdk15on</artifactId>
+            <version>${org.bouncycastle.version}</version>
+        </dependency>
 
     </dependencies>
 
