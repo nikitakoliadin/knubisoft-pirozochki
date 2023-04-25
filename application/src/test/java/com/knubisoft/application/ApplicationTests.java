@@ -41,10 +41,12 @@ class ApplicationTests {
 
     @Test
     @SneakyThrows
-    public void decryptDate() {
+    public void testDecryptData() {
         byte[] certificateData = Files.readAllBytes(Paths.get(certificateDataPath));
         byte[] privateKeyData = getPrivateKey();
         byte[] encryptedData = encryption.encryptData(originalData.getBytes(), certificateData);
+        Assertions.assertNotNull(encryptedData);
+        Assertions.assertNotEquals(originalData.getBytes(), encryptedData);
         byte[] decryptedDataBytes = encryption.decryptData(encryptedData, privateKeyData);
         String decryptedData = new String(decryptedDataBytes);
         Assertions.assertNotNull(decryptedData);
