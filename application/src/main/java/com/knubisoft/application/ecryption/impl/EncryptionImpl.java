@@ -15,6 +15,7 @@ import org.bouncycastle.cms.jcajce.JceKeyTransRecipient;
 import org.bouncycastle.cms.jcajce.JceKeyTransRecipientInfoGenerator;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.operator.OutputEncryptor;
+import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayInputStream;
 import java.security.KeyFactory;
@@ -27,6 +28,7 @@ import java.util.Collection;
 
 import static java.util.Objects.isNull;
 
+@Service
 public class EncryptionImpl implements Encryption {
 
     @Override
