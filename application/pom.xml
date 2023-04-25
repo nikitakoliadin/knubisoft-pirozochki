@@ -18,6 +18,8 @@
 
     <properties>
         <spring.spring-boot-admin-starter-client.version>2.6.2</spring.spring-boot-admin-starter-client.version>
+        <spring-data-mongodb.version>3.3.2</spring-data-mongodb.version>
+        <spring-boot-starter-data-mongodb.version>2.6.4</spring-boot-starter-data-mongodb.version>
         <mainClass>com.knubisoft.application.Application</mainClass>
         <!-- JAR plugin -->
         <jar-plugin.addClasspath>true</jar-plugin.addClasspath>
@@ -53,6 +55,19 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.springframework.data/spring-data-mongodb -->
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-mongodb</artifactId>
+            <version>${spring-data-mongodb.version}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-mongodb -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-mongodb</artifactId>
+            <version>${spring-boot-starter-data-mongodb.version}</version>
+        </dependency>
+
 
     </dependencies>
 
