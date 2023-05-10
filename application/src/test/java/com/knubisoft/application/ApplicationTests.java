@@ -1,6 +1,6 @@
 package com.knubisoft.application;
 
-import com.knubisoft.application.ecryption.Encryption;
+import com.knubisoft.application.encryption.Encryption;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
