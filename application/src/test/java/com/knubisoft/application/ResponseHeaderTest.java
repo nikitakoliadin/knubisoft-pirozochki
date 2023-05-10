@@ -25,12 +25,9 @@ public class ResponseHeaderTest {
 
     @Test
     public void testCustomResponseHeader() {
-        HttpHeaders headers;
-        headers = new HttpHeaders();
+        HttpHeaders headers = new HttpHeaders();
         HttpEntity<String> entity = new HttpEntity<>(headers);
-
         ResponseEntity<String> response = restTemplate.exchange("/hello", HttpMethod.GET, entity, String.class);
-
         assertNotNull(response);
         assertNotNull(response.getHeaders().get("UUID"));
         assertTrue(UUID.fromString(response.getHeaders().get("UUID").get(0)) instanceof UUID);

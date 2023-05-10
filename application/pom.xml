@@ -77,12 +77,6 @@
             <artifactId>bcpkix-jdk15on</artifactId>
             <version>${org.bouncycastle.version}</version>
         </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
-
     </dependencies>
 
     <build>
