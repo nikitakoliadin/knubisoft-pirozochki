@@ -20,6 +20,7 @@
         <spring.spring-boot-admin-starter-client.version>2.6.2</spring.spring-boot-admin-starter-client.version>
         <spring-data-mongodb.version>3.3.2</spring-data-mongodb.version>
         <spring-boot-starter-data-mongodb.version>2.6.4</spring-boot-starter-data-mongodb.version>
+        <com.github.cloudyrock.mongock.version>4.1.19</com.github.cloudyrock.mongock.version>
         <mainClass>com.knubisoft.application.Application</mainClass>
         <!-- JAR plugin -->
         <jar-plugin.addClasspath>true</jar-plugin.addClasspath>
@@ -95,7 +96,7 @@
             <dependency>
                 <groupId>com.github.cloudyrock.mongock</groupId>
                 <artifactId>mongock-bom</artifactId>
-                <version>4.1.19</version>
+                <version>${com.github.cloudyrock.mongock.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
