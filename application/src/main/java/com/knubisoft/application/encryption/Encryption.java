@@ -1,4 +1,4 @@
-package com.knubisoft.application.ecryption;
+package com.knubisoft.application.encryption;
 
 public interface Encryption {
 
