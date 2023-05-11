@@ -1,7 +1,6 @@
 package com.knubisoft.application;
 
 import com.knubisoft.application.ecryption.Encryption;
-import com.knubisoft.application.filter.ResponseHeaderFilter;
 import lombok.SneakyThrows;
 import org.junit.Before;
 import org.junit.jupiter.api.Assertions;

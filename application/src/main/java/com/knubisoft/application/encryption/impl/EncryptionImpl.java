@@ -1,6 +1,6 @@
-package com.knubisoft.application.ecryption.impl;
+package com.knubisoft.application.encryption.impl;
 
-import com.knubisoft.application.ecryption.Encryption;
+import com.knubisoft.application.encryption.Encryption;
 import lombok.SneakyThrows;
 import org.bouncycastle.cms.CMSAlgorithm;
 import org.bouncycastle.cms.CMSEnvelopedData;
