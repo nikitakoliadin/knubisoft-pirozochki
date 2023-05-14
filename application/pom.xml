@@ -72,7 +72,6 @@
             <version>${spring-boot-starter-data-mongodb.version}</version>
         </dependency>
 
-
         <dependency>
             <groupId>org.bouncycastle</groupId>
             <artifactId>bcpkix-jdk15on</artifactId>
@@ -87,6 +86,11 @@
         <dependency>
             <groupId>com.github.cloudyrock.mongock</groupId>
             <artifactId>mongodb-springdata-v3-driver</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
 
     </dependencies>
