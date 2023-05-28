@@ -23,17 +23,20 @@ public class EmailServiceImpl implements EmailService {
     private JavaMailSender javaMailSender;
     @Value("${spring.mail.username}")
     private String sender;
-    private static final String MAIL_SENT_SUCCESSFULLY = "Mail Sent Successfully...";
-    private static final String ERROR_WHILE_SENDING_MAIL = "Error while sending mail";
+    private static final String MAIL_SENT_SUCCESS = "Mail Sent Successfully";
+    private static final String ERROR_SENDING_MAIL = "Error while sending mail";
 
     @Override
     public String sendEmail(final EmailDetails emailDetails) {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         try {
             prepareMimeMessage(emailDetails, mimeMessage);
-            return sendEmail(mimeMessage);
+            javaMailSender.send(mimeMessage);
+            log.info(MAIL_SENT_SUCCESS);
+            return MAIL_SENT_SUCCESS;
         } catch (MessagingException e) {
-            return ERROR_WHILE_SENDING_MAIL;
+            log.info(ERROR_SENDING_MAIL + " :\n" + e.getMessage());
+            return ERROR_SENDING_MAIL;
         }
     }
 
@@ -47,16 +50,6 @@ public class EmailServiceImpl implements EmailService {
         if (nonNull(emailDetails.getAttachment())) {
             FileSystemResource file = new FileSystemResource(new File(emailDetails.getAttachment()));
             mimeMessageHelper.addAttachment(file.getFilename(), file);
-        }
-    }
-
-    private String sendEmail(final MimeMessage mailMessage) {
-        try {
-            javaMailSender.send(mailMessage);
-            return MAIL_SENT_SUCCESSFULLY;
-        } catch (Exception e) {
-            log.info("Error while sending mail :\n" + e.getMessage());
-            return ERROR_WHILE_SENDING_MAIL;
         }
     }
 }
