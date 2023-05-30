@@ -1,38 +1,24 @@
 package com.knubisoft.application;
 
 import com.knubisoft.application.entity.EmailDetails;
-import com.knubisoft.application.service.EmailServiceImpl;
-import org.junit.jupiter.api.BeforeEach;
+import com.knubisoft.application.service.EmailService;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.verify;
 
+
+@SpringBootTest
+@TestPropertySource("classpath:test-application.properties")
 public class EmailServiceImplTest {
-    @Mock
-    private JavaMailSender javaMailSender;
-
-    @Mock
-    private MimeMessage mimeMessage;
-
-    @InjectMocks
-    private EmailServiceImpl emailService;
-
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
+    @Autowired
+    private EmailService emailService;
 
     @Test
-    void sendEmail_Success() throws MessagingException {
-        // Arrange
+    void sendEmailSuccess() {
         EmailDetails emailDetails = new EmailDetails();
         emailDetails.setRecipient("recipient@example.com");
         emailDetails.setSubject("Test Subject");
@@ -40,7 +26,16 @@ public class EmailServiceImplTest {
         String result = emailService.sendEmail(emailDetails);
 
         assertEquals("Mail Sent Successfully", result);
-        verify(javaMailSender).createMimeMessage();
-        verify(javaMailSender).send(mimeMessage);
+    }
+
+    @Test
+    void sendEmailFailure() {
+        EmailDetails emailDetails = new EmailDetails();
+        emailDetails.setRecipient(""); // Invalid recipient to simulate failure
+        emailDetails.setSubject("Test Subject");
+        emailDetails.setMsgBody("Test Message Body");
+        String result = emailService.sendEmail(emailDetails);
+
+        assertEquals("Error while sending mail", result);
     }
 }
