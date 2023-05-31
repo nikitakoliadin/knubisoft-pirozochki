@@ -24,6 +24,8 @@ public class EmailServiceImpl implements EmailService {
     private JavaMailSender javaMailSender;
     @Value("${spring.mail.username}")
     private String sender;
+    @Value("${attachmentsCapSize}")
+    private int attachmentsCapSize;
     private static final String MAIL_SENT_SUCCESS = "Mail Sent Successfully";
     private static final String ERROR_SENDING_MAIL = "Error while sending mail";
     private static final String ATTACHMENTS_CAP = "Attachments cap reached, only first three will be sent";
@@ -58,10 +60,10 @@ public class EmailServiceImpl implements EmailService {
 
     private void prepareAttachments(final EmailDetails emailDetails,
                                     final MimeMessageHelper mimeMessageHelper) throws MessagingException {
-        if (emailDetails.getAttachments().size() > 3) {
+        if (emailDetails.getAttachments().size() > attachmentsCapSize) {
             log.warn(ATTACHMENTS_CAP);
         }
-        for (String attachment : emailDetails.getAttachments().subList(0, 2)) {
+        for (String attachment : emailDetails.getAttachments().subList(0, (attachmentsCapSize - 1))) {
             File fileInSystem = new File(attachment);
             if (fileInSystem.exists()) {
                 FileSystemResource file = new FileSystemResource(fileInSystem);
