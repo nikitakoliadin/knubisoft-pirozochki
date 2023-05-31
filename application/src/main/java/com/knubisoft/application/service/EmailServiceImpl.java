@@ -30,7 +30,7 @@ public class EmailServiceImpl implements EmailService {
     private static final String ERROR_SENDING_MAIL = "Error while sending mail";
     private static final String ATTACHMENTS_CAP = "Attachments cap reached, only first three will be sent";
     private static final String FILE_NOT_FOUND = "File by path: <%s> was not found in the system. "
-            + "Message will be sent will be sent without it.";
+            + "Message will be sent without it.";
 
     @Override
     public String sendEmail(final EmailDetails emailDetails) {
