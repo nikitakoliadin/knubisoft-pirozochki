@@ -14,6 +14,7 @@ import javax.mail.internet.MimeMessage;
 import java.io.File;
 
 import static java.util.Objects.nonNull;
+import static java.util.Objects.requireNonNull;
 
 @Slf4j
 @Service
@@ -25,6 +26,9 @@ public class EmailServiceImpl implements EmailService {
     private String sender;
     private static final String MAIL_SENT_SUCCESS = "Mail Sent Successfully";
     private static final String ERROR_SENDING_MAIL = "Error while sending mail";
+    private static final String ATTACHMENTS_CAP = "Attachments cap reached, only first three will be sent";
+    private static final String FILE_NOT_FOUND = "File by path: <%s> was not found in the system. "
+            + "Message will be sent will be sent without it.";
 
     @Override
     public String sendEmail(final EmailDetails emailDetails) {
@@ -47,9 +51,24 @@ public class EmailServiceImpl implements EmailService {
         mimeMessageHelper.setTo(emailDetails.getRecipient());
         mimeMessageHelper.setText(emailDetails.getMsgBody());
         mimeMessageHelper.setSubject(emailDetails.getSubject());
-        if (nonNull(emailDetails.getAttachment())) {
-            FileSystemResource file = new FileSystemResource(new File(emailDetails.getAttachment()));
-            mimeMessageHelper.addAttachment(file.getFilename(), file);
+        if (nonNull(emailDetails.getAttachments())) {
+            prepareAttachments(emailDetails, mimeMessageHelper);
+        }
+    }
+
+    private void prepareAttachments(final EmailDetails emailDetails,
+                                    final MimeMessageHelper mimeMessageHelper) throws MessagingException {
+        if (emailDetails.getAttachments().size() > 3) {
+            log.warn(ATTACHMENTS_CAP);
+        }
+        for (String attachment : emailDetails.getAttachments().subList(0, 2)) {
+            File fileInSystem = new File(attachment);
+            if (fileInSystem.exists()) {
+                FileSystemResource file = new FileSystemResource(fileInSystem);
+                mimeMessageHelper.addAttachment(requireNonNull(file.getFilename()), file);
+            } else {
+                log.warn(String.format(FILE_NOT_FOUND, attachment));
+            }
         }
     }
 }
