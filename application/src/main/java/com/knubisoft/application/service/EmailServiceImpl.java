@@ -63,7 +63,7 @@ public class EmailServiceImpl implements EmailService {
         if (emailDetails.getAttachments().size() > attachmentsCapSize) {
             log.warn(ATTACHMENTS_CAP);
         }
-        for (String attachment : emailDetails.getAttachments().subList(0, (attachmentsCapSize - 1))) {
+        for (String attachment : emailDetails.getAttachments().subList(0, attachmentsCapSize)) {
             File fileInSystem = new File(attachment);
             if (fileInSystem.exists()) {
                 FileSystemResource file = new FileSystemResource(fileInSystem);
