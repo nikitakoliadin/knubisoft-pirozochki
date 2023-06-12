@@ -12,14 +12,13 @@ import java.util.concurrent.CompletableFuture;
 public class TaskServiceImpl implements TaskService{
     @Async
     public CompletableFuture<Task> processTaskAsync(Task task) {
-        log.info("Processing task asynchronously: {}", task.getId());
+        log.info("Processing task asynchronously: {} - {}", task.getId(), task.getName());
         try {
             Thread.sleep(5000);
         } catch (InterruptedException e) {
-            log.error("Task processing interrupted: {}", task.getId());
+            log.error("Task processing interrupted: {} - {}", task.getId(), task.getName());
         }
-
-        log.info("Task processed asynchronously: {}", task.getId());
+        log.info("Task processed asynchronously: {} - {}", task.getId(), task.getName());
         return CompletableFuture.completedFuture(task);
     }
 }
