@@ -5,7 +5,7 @@
 
     <parent>
         <groupId>com.knubisoft</groupId>
-        <artifactId>knubisoft-pirozochki</artifactId>
+        <artifactId>backend</artifactId>
         <version>1.0.0</version>
     </parent>
 

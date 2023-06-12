@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.knubisoft</groupId>
-    <artifactId>knubisoft-pirozochki</artifactId>
+    <artifactId>backend</artifactId>
     <version>1.0.0</version>
     <packaging>pom</packaging>
 
-    <name>knubisoft-pirozochki</name>
+    <name>backend</name>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
