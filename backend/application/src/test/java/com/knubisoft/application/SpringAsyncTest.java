@@ -19,16 +19,21 @@ public class SpringAsyncTest {
     private TaskService taskService;
     @Test
     public void testProcessTaskAsync() throws Exception {
-        Task task = new Task();
-        task.setId("1");
-        task.setName("Test Task");
-        // Invoke the asynchronous method
-        CompletableFuture<Task> futureTask = taskService.processTaskAsync(task);
-        // Wait for the asynchronous processing to complete
-        futureTask.get();
+        Task firstTask = new Task();
+        firstTask.setId("1");
+        firstTask.setName("First Task");
 
+        Task secondTask = new Task();
+        secondTask.setId("2");
+        secondTask.setName("Second Task");
+        // Invoke the asynchronous method
+        CompletableFuture<Task> futureFirstTask = taskService.processTaskAsync(firstTask);
+        CompletableFuture<Task> futureSecondTask = taskService.processTaskAsync(secondTask);
+        // Wait for the asynchronous processing to complete
         // Add assertions to verify the result
-        assertNotNull(task.getId());
-        assertEquals("Test Task", task.getName());
+        assertNotNull(futureFirstTask.get().getId());
+        assertEquals("First Task", futureFirstTask.get().getName());
+        assertNotNull(futureSecondTask.get().getId());
+        assertEquals("Second Task", futureSecondTask.get().getName());
     }
 }

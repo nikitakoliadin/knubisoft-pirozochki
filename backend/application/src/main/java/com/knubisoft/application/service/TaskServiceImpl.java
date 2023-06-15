@@ -16,7 +16,7 @@ public class TaskServiceImpl implements TaskService{
 
     private final FireCpuLoadUtil cpuLoadUtil;
     @Async
-    public CompletableFuture<Task> processTaskAsync(Task task) {
+    public CompletableFuture<Task> processTaskAsync(final Task task) {
         log.info("Processing task asynchronously: {} - {}", task.getId(), task.getName());
         try {
             Thread.sleep(5000);
