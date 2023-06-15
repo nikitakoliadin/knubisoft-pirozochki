@@ -40,7 +40,6 @@ public class EmailServiceImpl implements EmailService {
             javaMailSender.send(mimeMessage);
             return MAIL_SENT_SUCCESS;
         } catch (MessagingException e) {
-            log.info(ERROR_SENDING_MAIL + " :\n" + e.getMessage());
             return ERROR_SENDING_MAIL;
         }
     }
