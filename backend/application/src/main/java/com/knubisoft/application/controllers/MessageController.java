@@ -24,6 +24,10 @@ public class MessageController {
         rabbitMessageSender.sendMessages();
     }
 
+    @PostMapping("/sendCustom")
+    public void sendCustomMessage(@RequestBody String customMessage) {
+        rabbitMessageSender.sendCustomMessage(customMessage);
+    }
     @GetMapping("/get")
     public String receiveMessage() throws InterruptedException {
         receiver.getLatch().await();

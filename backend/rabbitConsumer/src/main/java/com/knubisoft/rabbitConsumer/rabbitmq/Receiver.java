@@ -1,14 +1,13 @@
-package com.knubisoft.application.rabbitmq;
+package com.knubisoft.rabbitConsumer.rabbitmq;
+
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.stereotype.Component;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.stereotype.Component;
-
 @Component
-
 public class Receiver {
 
     private CountDownLatch latch = new CountDownLatch(1);
