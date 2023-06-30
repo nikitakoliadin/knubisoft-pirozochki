@@ -33,7 +33,7 @@
 
         <!-- Other dependencies -->
         <org.bouncycastle.version>1.58</org.bouncycastle.version>
-        <rabbit.version>3.0.5</rabbit.version>
+        <rabbit.version>2.3.11</rabbit.version>
     </properties>
 
     <dependencies>
