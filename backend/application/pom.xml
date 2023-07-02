@@ -33,6 +33,7 @@
 
         <!-- Other dependencies -->
         <org.bouncycastle.version>1.58</org.bouncycastle.version>
+        <rabbit.version>2.3.11</rabbit.version>
     </properties>
 
     <dependencies>
@@ -97,6 +98,14 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.springframework.amqp/spring-rabbit -->
+        <dependency>
+            <groupId>org.springframework.amqp</groupId>
+            <artifactId>spring-rabbit</artifactId>
+            <version>${rabbit.version}</version>
+        </dependency>
+
 
     </dependencies>
 
