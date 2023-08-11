@@ -1,4 +1,4 @@
-package com.knubisoft.application.mongo.config;
+package com.knubisoft.application.config;
 
 import com.github.cloudyrock.mongock.ChangeLog;
 import com.github.cloudyrock.mongock.ChangeSet;
