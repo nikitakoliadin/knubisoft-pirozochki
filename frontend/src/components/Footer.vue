@@ -52,7 +52,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .footer {
   box-sizing: border-box;
   flex-shrink: 0;
@@ -149,6 +149,8 @@ export default {
 }
 
 .link:hover {
+  color: #03071e;
+  background-color: transparent;
   text-decoration: underline;
   cursor: pointer;
 }
