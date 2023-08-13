@@ -55,15 +55,12 @@
   box-sizing: border-box;
   flex-shrink: 0;
   width: 100%;
-  height: min-content; /* 415px */
+  height: min-content;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
   padding: 100px 100px 100px 100px;
   background-color: #faa307;
   overflow: visible;
-  position: relative;
   align-content: center;
   flex-wrap: nowrap;
   gap: 60px;
@@ -79,12 +76,11 @@
 .horizontal {
   flex-shrink: 0;
   width: 100%;
-  height: min-content; /* 131px */
+  height: min-content;
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
-  align-items: flex-start;
-  max-width: 1000px;
+  justify-content: center;
+  align-items: center;
   overflow: visible;
   position: relative;
   padding: 0px 0px 0px 0px;
@@ -96,8 +92,8 @@
 
 .vertical {
   flex-shrink: 0;
-  width: 300px;
-  height: min-content; /* 131px */
+  width: 30%;
+  height: min-content;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -161,7 +157,6 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  max-width: 1000px;
   overflow: visible;
   position: relative;
   padding: 0px 0px 0px 0px;
