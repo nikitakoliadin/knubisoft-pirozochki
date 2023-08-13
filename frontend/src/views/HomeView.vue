@@ -1,7 +1,7 @@
 <script setup>
+import { RouterLink } from 'vue-router'
 import Card from '@/components/Card.vue'
-import { RouterLink, RouterView } from 'vue-router'
-import Episodes from '@/views/Episodes.vue'
+import Footer from '../components/Footer.vue'
 </script>
 
 <template>
@@ -62,6 +62,9 @@ import Episodes from '@/views/Episodes.vue'
   <div class="questions">
     <h1>Frequently asked questions</h1>
   </div>
+  <footer>
+    <Footer />
+  </footer>
 </template>
 
 <style>
