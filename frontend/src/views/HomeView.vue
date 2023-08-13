@@ -2,6 +2,8 @@
 import { RouterLink } from 'vue-router'
 import Card from '@/components/Card.vue'
 import Footer from '../components/Footer.vue'
+import WelcomeText from '@/components/WelcomeText.vue'
+import QuestionsAnswers from '@/components/QuestionsAnswers.vue'
 </script>
 
 <template>
@@ -24,24 +26,7 @@ import Footer from '../components/Footer.vue'
   <div class="welcome">
     <div class="welcome-aboard">
       <h1>Welcome aboard!</h1>
-      <div class="welcome-aboard-paragraphs">
-        <p>
-          Step into the world of Futurama, where the future is wilder than you could have ever
-          imagined! Join Fry, Leela, and Bender on their absurd adventures around the universe.
-        </p>
-        <br />
-        <p>
-          This fan site celebrates the hilarity, complexity, and genius of Futurama. Discover
-          episode guides, character profiles, and exclusive content. It’s everything you need to
-          fuel your love for this animated classic.
-        </p>
-        <br />
-        <p>
-          So buckle up, because it’s time to blast off into the bizarre and hilarious universe of
-          Futurama! You won’t believe what lies ahead on this totally tubular trip through the year
-          3000 and beyond.
-        </p>
-      </div>
+      <WelcomeText />
     </div>
   </div>
   <div class="crew">
@@ -55,12 +40,12 @@ import Footer from '../components/Footer.vue'
   </div>
   <div class="comments">
     <Card />
-    <Card />
-    <Card />
-    <Card />
   </div>
   <div class="questions">
     <h1>Frequently asked questions</h1>
+    <div class="questions-row">
+      <QuestionsAnswers />
+    </div>
   </div>
   <footer>
     <Footer />
@@ -160,36 +145,6 @@ import Footer from '../components/Footer.vue'
   text-align: left;
 }
 
-.welcome-aboard-paragraphs {
-  width: 100%;
-  height: min-content;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  max-width: 600px;
-  padding: 0px;
-  align-content: center;
-  flex-wrap: nowrap;
-  gap: 40px;
-}
-
-.welcome-aboard-paragraphs p {
-  width: 100%;
-  height: auto;
-  white-space: pre-wrap;
-  word-wrap: break-word;
-  word-break: break-word;
-  overflow: visible;
-  font-weight: 400;
-  font-style: normal;
-  font-family: 'Archivo', 'Archivo Placeholder', sans-serif;
-  color: #03071e;
-  font-size: 20px;
-  letter-spacing: 0em;
-  line-height: 1.5;
-  text-align: left;
-}
 .crew {
   box-sizing: border-box;
   width: 100%;
@@ -258,12 +213,10 @@ import Footer from '../components/Footer.vue'
   box-sizing: border-box;
   width: 100%;
   height: min-content;
-  display: flex;
+  display: block;
   padding: 100px;
   background-color: #faa307;
   align-content: center;
-  flex-wrap: nowrap;
-  gap: 60px;
 }
 .questions h1 {
   width: 100%;
@@ -281,6 +234,19 @@ import Footer from '../components/Footer.vue'
   letter-spacing: 0em;
   line-height: 1.2;
   text-align: left;
+}
+.questions-row {
+  width: 100%;
+  height: min-content;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  max-width: 1000px;
+  align-content: flex-start;
+  flex-wrap: wrap;
+  gap: 100px;
+  padding-top: 100px;
 }
 
 /* Desktop styles */
