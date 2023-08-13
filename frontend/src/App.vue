@@ -47,8 +47,8 @@ export default {
 </script>
 
 <template>
-  <div>
-    <HomeView />
+  <div class="wrapper">
+    <router-view />
   </div>
 </template>
 

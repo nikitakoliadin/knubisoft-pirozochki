@@ -1,9 +1,24 @@
-<script setup></script>
+<script setup>
+import Card from '@/components/Card.vue'
+import { RouterLink, RouterView } from 'vue-router'
+import Episodes from '@/views/Episodes.vue'
+</script>
 
 <template>
   <div class="top-toolbar">
     <div class="background-content">
       <h1>Futurama</h1>
+      <div class="wrapper">
+        <nav>
+          <RouterLink :to="{ name: 'episodes' }">
+            <span class="custom-link"> Episodes </span>
+          </RouterLink>
+          <RouterLink :to="{ name: 'characters' }">
+            <span class="custom-link"> Characters </span></RouterLink
+          >
+          <RouterLink :to="{ name: 'shop' }"> <span class="custom-link"> Shop </span></RouterLink>
+        </nav>
+      </div>
     </div>
   </div>
   <div class="welcome">
@@ -38,6 +53,15 @@
       <img src="@/assets/bender.png" alt="" />
     </div>
   </div>
+  <div class="comments">
+    <Card />
+    <Card />
+    <Card />
+    <Card />
+  </div>
+  <div class="questions">
+    <h1>Frequently asked questions</h1>
+  </div>
 </template>
 
 <style>
@@ -64,7 +88,30 @@
   line-height: 1;
   text-align: center;
 }
-
+.wrapper nav {
+  width: 100%;
+  height: min-content;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+  align-content: center;
+  flex-wrap: nowrap;
+  gap: 20px;
+}
+.wrapper nav span {
+  width: auto;
+  height: auto;
+  white-space: pre;
+  font-weight: 700;
+  font-style: normal;
+  font-family: 'Archivo', 'Archivo Placeholder', sans-serif;
+  color: #000000;
+  font-size: 16px;
+  letter-spacing: 0em;
+  line-height: 1.2;
+}
 .welcome {
   box-sizing: border-box;
   width: 100vw;
@@ -89,7 +136,7 @@
   z-index: 1;
   align-content: flex-start;
   flex-wrap: nowrap;
-  gap: 40;
+  gap: 40px;
 }
 
 .welcome-aboard h1 {
@@ -120,7 +167,7 @@
   padding: 0px;
   align-content: center;
   flex-wrap: nowrap;
-  gap: 40;
+  gap: 40px;
 }
 
 .welcome-aboard-paragraphs p {
@@ -151,8 +198,7 @@
   background-color: #faa307;
   align-content: center;
   flex-wrap: nowrap;
-  gap: 60;
-  position: absolute;
+  gap: 60px;
 }
 .crew h1 {
   width: 100%;
@@ -191,6 +237,47 @@
   background-repeat: no-repeat;
   background-position: center;
   border-radius: 40px;
+}
+.comments {
+  box-sizing: border-box;
+  width: 100%;
+  height: min-content;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 100px;
+  background-color: #faa307;
+  align-content: center;
+  flex-wrap: nowrap;
+  gap: 20px;
+}
+.questions {
+  box-sizing: border-box;
+  width: 100%;
+  height: min-content;
+  display: flex;
+  padding: 100px;
+  background-color: #faa307;
+  align-content: center;
+  flex-wrap: nowrap;
+  gap: 60px;
+}
+.questions h1 {
+  width: 100%;
+  height: auto;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  word-break: break-word;
+  max-width: 1000px;
+  overflow: visible;
+  font-weight: 400;
+  font-style: normal;
+  font-family: 'Fascinate Inline', sans-serif;
+  color: #03071e;
+  font-size: 48px;
+  letter-spacing: 0em;
+  line-height: 1.2;
+  text-align: left;
 }
 
 /* Desktop styles */
