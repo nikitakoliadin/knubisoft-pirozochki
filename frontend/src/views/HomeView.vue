@@ -102,6 +102,7 @@ import Footer from '../components/Footer.vue'
   align-content: center;
   flex-wrap: nowrap;
   gap: 20px;
+  padding-top: 30px;
 }
 .wrapper nav span {
   width: auto;
@@ -201,7 +202,6 @@ import Footer from '../components/Footer.vue'
   background-color: #faa307;
   align-content: center;
   flex-wrap: nowrap;
-  gap: 60px;
 }
 .crew h1 {
   width: 100%;
@@ -246,12 +246,12 @@ import Footer from '../components/Footer.vue'
   width: 100%;
   height: min-content;
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
   padding: 100px;
   background-color: #faa307;
   align-content: center;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   gap: 20px;
 }
 .questions {
@@ -313,6 +313,32 @@ import Footer from '../components/Footer.vue'
   .welcome {
     padding: 50px;
   }
+
+  .crew {
+    padding: 50px;
+    gap: 20px;
+  }
+
+  .crew h1 {
+    font-size: 40px;
+  }
+
+  .images-greed {
+    padding-bottom: 40px;
+  }
+
+  .images-greed img {
+    height: 352px;
+  }
+
+  .comments {
+    padding: 50px;
+    justify-content: space-around;
+  }
+
+  .questions {
+    padding: 50px;
+  }
 }
 
 /* Phone styles */
@@ -325,13 +351,46 @@ import Footer from '../components/Footer.vue'
   .top-toolbar h1 {
     font-size: 50px;
   }
+  .wrapper nav {
+    flex-direction: column;
+  }
 
   .welcome-aboard h1 {
     padding: 20px 0 20px 0;
   }
 
   .welcome {
-    padding: 10px;
+    padding: 15px;
+  }
+
+  .crew {
+    padding: 40px 15px 40px 15px;
+    gap: 0;
+  }
+
+  .crew h1 {
+    font-size: 28px;
+  }
+
+  .images-greed {
+    padding-bottom: 20px;
+  }
+
+  .images-greed img {
+    height: 168px;
+  }
+
+  .comments {
+    padding: 15px;
+    justify-content: space-around;
+  }
+
+  .questions {
+    padding: 15px;
+  }
+
+  .questions h1 {
+    font-size: 30px;
   }
 }
 </style>
