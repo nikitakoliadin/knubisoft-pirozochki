@@ -1,3 +1,6 @@
+<script>
+</script>
+
 <template>
   <div class="footer">
     <div class="horizontal">
@@ -9,8 +12,12 @@
       </div>
       <div class="vertical">
         <p class="theme-header">Explore</p>
-        <a class="link">Episodes</a>
-        <a class="link">Characters</a>
+        <RouterLink :to="{ name: 'episodes' }">
+          <a class="link">Episodes</a>
+        </RouterLink>
+        <RouterLink :to="{ name: 'characters' }">
+          <a class="link">Characters</a>
+        </RouterLink>
         <a class="link">Gallery</a>
       </div>
       <div class="vertical">
@@ -42,15 +49,6 @@
     </div>
   </div>
 </template>
-
-<script>
-export default {
-  name: 'LandingFooter',
-  props: {
-    msg: String
-  }
-}
-</script>
 
 <style scoped>
 .footer {
