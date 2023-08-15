@@ -64,125 +64,77 @@ import QuestionsAnswers from '@/components/QuestionsAnswers.vue'
 }
 
 .top-toolbar h1 {
-  width: 100%;
-  height: auto;
-  max-width: fit-content;
   font-weight: 400;
-  font-style: normal;
   font-family: 'Fascinate Inline', sans-serif;
   color: #000000;
-  letter-spacing: 0em;
   text-transform: uppercase;
   line-height: 1;
   text-align: center;
 }
+
 .wrapper nav {
-  width: 100%;
-  height: min-content;
   display: flex;
-  flex-direction: row;
   justify-content: center;
   align-items: center;
-  z-index: 1;
-  align-content: center;
-  flex-wrap: nowrap;
   gap: 20px;
   padding-top: 30px;
 }
+
 .wrapper nav span {
-  width: auto;
-  height: auto;
   white-space: pre;
   font-weight: 700;
-  font-style: normal;
   font-family: 'Archivo', 'Archivo Placeholder', sans-serif;
   color: #000000;
   font-size: 16px;
-  letter-spacing: 0em;
   line-height: 1.2;
 }
+
 .welcome {
   box-sizing: border-box;
   width: 100vw;
-  height: min-content;
   display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
   align-items: center;
   background-color: #faa307;
-  align-content: center;
-  flex-wrap: nowrap;
-  gap: 0;
 }
 
 .welcome-aboard {
   width: 100%;
-  height: min-content;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  z-index: 1;
-  align-content: flex-start;
-  flex-wrap: nowrap;
   gap: 40px;
 }
 
 .welcome-aboard h1 {
-  width: 100%;
-  height: auto;
-  white-space: pre-wrap;
-  word-wrap: break-word;
-  word-break: break-word;
-  overflow: visible;
   font-weight: 400;
-  font-style: normal;
   font-family: 'Fascinate Inline', sans-serif;
   color: #03071e;
   font-size: 48px;
-  letter-spacing: 0em;
   line-height: 1.2;
-  text-align: left;
 }
 
 .crew {
-  box-sizing: border-box;
-  width: 100%;
-  height: min-content;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
   padding: 100px;
   background-color: #faa307;
-  align-content: center;
-  flex-wrap: nowrap;
 }
 .crew h1 {
-  width: 100%;
-  height: auto;
-  white-space: pre-wrap;
-  word-wrap: break-word;
-  word-break: break-word;
-  overflow: visible;
   font-weight: 400;
-  font-style: normal;
   font-family: 'Fascinate Inline', sans-serif;
   color: #6a040f;
   font-size: 48px;
-  letter-spacing: 0em;
   line-height: 1.2;
-  text-align: left;
   padding-bottom: 30px;
 }
 .images-greed {
   width: 100%;
-  height: min-content;
   display: grid;
   mix-blend-mode: luminosity;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, min-content);
   justify-content: center;
-  grid-auto-rows: min-content;
+  align-items: center;
   grid-template-rows: repeat(2, min-content);
   gap: 20px;
 }
@@ -191,15 +143,9 @@ import QuestionsAnswers from '@/components/QuestionsAnswers.vue'
   height: 500px;
   display: block;
   aspect-ratio: 0.98 / 1;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
   border-radius: 40px;
 }
 .comments {
-  box-sizing: border-box;
-  width: 100%;
-  height: min-content;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -210,40 +156,20 @@ import QuestionsAnswers from '@/components/QuestionsAnswers.vue'
   gap: 20px;
 }
 .questions {
-  box-sizing: border-box;
-  width: 100%;
-  height: min-content;
   display: block;
   padding: 100px;
   background-color: #faa307;
-  align-content: center;
 }
 .questions h1 {
-  width: 100%;
-  height: auto;
-  white-space: pre-wrap;
-  word-wrap: break-word;
-  word-break: break-word;
-  max-width: 1000px;
-  overflow: visible;
   font-weight: 400;
-  font-style: normal;
   font-family: 'Fascinate Inline', sans-serif;
   color: #03071e;
   font-size: 48px;
-  letter-spacing: 0em;
   line-height: 1.2;
-  text-align: left;
 }
 .questions-row {
-  width: 100%;
-  height: min-content;
   display: flex;
-  flex-direction: row;
   justify-content: center;
-  align-items: flex-start;
-  max-width: 1000px;
-  align-content: flex-start;
   flex-wrap: wrap;
   gap: 100px;
   padding-top: 100px;

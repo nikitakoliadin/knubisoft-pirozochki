@@ -10,34 +10,17 @@
 
 <style scoped>
 .welcome-aboard-paragraphs {
-  width: 100%;
-  height: min-content;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   max-width: 600px;
-  padding: 0px;
-  align-content: center;
-  flex-wrap: nowrap;
   gap: 40px;
 }
 
 .welcome-aboard-paragraphs p {
-  width: 100%;
-  height: auto;
-  white-space: pre-wrap;
-  word-wrap: break-word;
-  word-break: break-word;
-  overflow: visible;
   font-weight: 400;
-  font-style: normal;
   font-family: 'Archivo', 'Archivo Placeholder', sans-serif;
   color: #03071e;
   font-size: 20px;
-  letter-spacing: 0em;
   line-height: 1.5;
-  text-align: left;
 }
 </style>
 
