@@ -1,7 +1,21 @@
-<script setup></script>
+<script setup>
+import { ref, onMounted } from 'vue'
+import WelcomeTextsService from '@/services/WelcomeTextsService'
+
+const texts = ref(null)
+onMounted(() => {
+  WelcomeTextsService.getTexts()
+    .then((response) => {
+      texts.value = response.data
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+})
+</script>
 
 <template>
-  <div v-for="paragraph in paragraphs" class="welcome-aboard-paragraphs">
+  <div v-for="paragraph in texts" class="welcome-aboard-paragraphs">
     <p>
       {{ paragraph.text }}
     </p>
@@ -23,33 +37,3 @@
   line-height: 1.5;
 }
 </style>
-
-<script>
-export default {
-  data() {
-    return {
-      paragraphs: [
-        {
-          id: 1,
-          text:
-            'Step into the world of Futurama, where the future is wilder than you could have ever' +
-            'imagined! Join Fry, Leela, and Bender on their absurd adventures around the universe.'
-        },
-        {
-          id: 2,
-          text:
-            'This fan site celebrates the hilarity, complexity, and genius of Futurama. Discover' +
-            'episode guides, character profiles, and exclusive content. It’s everything you need to' +
-            'fuel your love for this animated classic.'
-        },
-        {
-          id: 3,
-          text:
-            'So buckle up, because it’s time to blast off into the bizarre and hilarious universe of' +
-            'Futurama! You won’t believe what lies ahead on this totally tubular trip through the year 3000 and beyond.'
-        }
-      ]
-    }
-  }
-}
-</script>
