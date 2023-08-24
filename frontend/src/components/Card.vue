@@ -17,7 +17,7 @@ onMounted(() => {
 
 <template>
   <div v-for="card in cards" :key="card.id" class="card">
-    <img :src="card.image" alt="" />
+    <img :src="card.imagePath" alt="" />
     <h3>{{ card.comment }}}</h3>
     <p>{{ card.name }}</p>
   </div>
