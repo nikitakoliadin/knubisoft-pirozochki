@@ -139,7 +139,6 @@
 
 .link:hover {
   color: #03071e;
-  background-color: transparent;
   text-decoration: underline;
   cursor: pointer;
 }
@@ -147,7 +146,7 @@
 .copyright {
   flex-shrink: 0;
   width: 100%;
-  height: min-content; /* 24px */
+  height: min-content;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -160,8 +159,8 @@
 
 ._2023-all-rights-reserved {
   flex-shrink: 0;
-  width: auto; /* 327px */
-  height: auto; /* 24px */
+  width: auto;
+  height: auto;
   white-space: pre;
   overflow: visible;
   font-weight: 400;
@@ -176,8 +175,8 @@
 
 .icons {
   flex-shrink: 0;
-  width: min-content; /* 50px */
-  height: min-content; /* 20px */
+  width: min-content;
+  height: min-content;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -190,5 +189,28 @@
 
 .icons:hover {
   cursor: pointer;
+}
+
+@media screen and (max-width: 1199px) and (min-width: 810px) {
+  .vertical {
+    width: 20%;
+  }
+}
+
+/* Phone styles */
+@media screen and (max-width: 809px) {
+  .vertical {
+    width: 100%;
+    align-items: center;
+  }
+
+  .copyright {
+    flex-direction: column;
+  }
+
+  .icons {
+    width: 100%;
+    justify-content: center;
+  }
 }
 </style>

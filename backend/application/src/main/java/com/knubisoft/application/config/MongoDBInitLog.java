@@ -2,6 +2,10 @@ package com.knubisoft.application.config;
 
 import com.github.cloudyrock.mongock.ChangeLog;
 import com.github.cloudyrock.mongock.ChangeSet;
+import com.knubisoft.application.card.Card;
+import com.knubisoft.application.card.CardRepository;
+import com.knubisoft.application.faq.Faq;
+import com.knubisoft.application.faq.FaqRepository;
 import com.knubisoft.application.model.Developer;
 import com.knubisoft.application.repository.DeveloperRepository;
 import com.knubisoft.application.welcomeText.WelcomeText;
@@ -37,6 +41,36 @@ public class MongoDBInitLog {
                     " bizarre and hilarious universe of Futurama! You won’t believe what lies ahead on this totally " +
                     "tubular trip through the year 3000 and beyond."));
             welcomeTextRepository.insert(welcomeTextList);
+        }
+    }
+
+    @ChangeSet(order = "003", id = "seedFaq", author = "Nikita Shumsky")
+    public void seedFaq(FaqRepository faqRepository) {
+        if (faqRepository.count() == 0) {
+            List<Faq> faqList = new ArrayList<>();
+            faqList.add(new Faq(1L, "What year does Futurama take place?",
+                    "Futurama primarily takes place in the year 3000, but expect lots of time-travel shenanigans!"));
+            faqList.add(new Faq(2L, "Who created Futurama?",
+                    "Futurama was created by Matt Groening, the mastermind behind The Simpsons."));
+            faqList.add(new Faq(3L, "Is the Hypnotoad real?",
+                    "No, the Hypnotoad is a fictional character from the show—but do not underestimate its power!"));
+            faqRepository.insert(faqList);
+        }
+    }
+
+    @ChangeSet(order = "004", id = "seedCard", author = "Nikita Shumsky")
+    public void seedCard(CardRepository cardRepository) {
+        if (cardRepository.count() == 0) {
+            List<Card> cardList = new ArrayList<>();
+            cardList.add(new Card(1L, "Phillip J. Fly",
+                    "Futurama is the space-faring comedy I didn’t know I needed in my life!", "/src/assets/img.png"));
+            cardList.add(new Card(2L, "Turanga Leela",
+                    "I laugh, I cry, I kick alien butt—Futurama has it all!", "/src/assets/logo.svg"));
+            cardList.add(new Card(3L, "Phillip J. Flys",
+                    "Futurama is the space-faring comedy I didn’t know I needed in my life!", "/src/assets/img.png"));
+            cardList.add(new Card(4L, "Turanga Leelaq",
+                    "I laugh, I cry, I kick alien butt—Futurama has it all!", "/src/assets/logo.svg"));
+            cardRepository.insert(cardList);
         }
     }
 }

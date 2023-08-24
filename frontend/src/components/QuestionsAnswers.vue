@@ -1,9 +1,23 @@
-<script setup></script>
+<script setup>
+import {ref, onMounted} from 'vue'
+import FaqService from '@/services/FaqService'
+
+const faqs = ref(null)
+onMounted(() => {
+  FaqService.getFaq()
+      .then((response) => {
+        faqs.value = response.data
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+})
+</script>
 
 <template>
-  <div v-for="question_answer in questions_answers" class="question-answer">
-    <h1>{{ question_answer.question }}</h1>
-    <p>{{ question_answer.answer }}</p>
+  <div v-for="faq in faqs" class="question-answer">
+    <h1>{{ faq.question }}</h1>
+    <p>{{ faq.answer }}</p>
   </div>
 </template>
 
@@ -22,6 +36,7 @@
   flex-wrap: nowrap;
   gap: 10px;
 }
+
 .question-answer h1 {
   width: 100%;
   height: auto;
@@ -38,6 +53,7 @@
   line-height: 1.5;
   text-align: left;
 }
+
 .question-answer p {
   width: 100%;
   height: auto;
@@ -62,30 +78,3 @@
   }
 }
 </style>
-<script>
-export default {
-  data() {
-    return {
-      questions_answers: [
-        {
-          id: 1,
-          question: 'What year does Futurama take place?',
-          answer:
-            'Futurama primarily takes place in the year 3000, but expect lots of time-travel shenanigans!'
-        },
-        {
-          id: 2,
-          question: 'Who created Futurama?',
-          answer: 'Futurama was created by Matt Groening, the mastermind behind The Simpsons.'
-        },
-        {
-          id: 3,
-          question: 'Is the Hypnotoad real?',
-          answer:
-            'No, the Hypnotoad is a fictional character from the show—but do not underestimate its power!'
-        }
-      ]
-    }
-  }
-}
-</script>

@@ -1,10 +1,25 @@
-<script setup></script>
+<script setup>
+import {ref, onMounted} from 'vue'
+import CardsService from '@/services/CardsService'
+
+const cards = ref(null)
+onMounted(() => {
+  CardsService.getCards()
+      .then((response) => {
+        cards.value = response.data
+        console.log(cards);
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+})
+</script>
 
 <template>
-  <div v-for="comment in comments" :key="comment.id" class="card">
-    <img :src="comment.image" alt="" />
-    <h3>{{ comment.comment }}}</h3>
-    <p>{{ comment.name }}</p>
+  <div v-for="card in cards" :key="card.id" class="card">
+    <img :src="card.image" alt="" />
+    <h3>{{ card.comment }}}</h3>
+    <p>{{ card.name }}</p>
   </div>
 </template>
 
@@ -77,36 +92,4 @@
 }
 </style>
 <script>
-export default {
-  data() {
-    return {
-      comments: [
-        {
-          id: 1,
-          name: 'Phillip J. Fly',
-          comment: 'Futurama is the space-faring comedy I didn’t know I needed in my life!',
-          image: '/src/assets/img.png'
-        },
-        {
-          id: 2,
-          name: 'Turanga Leela',
-          comment: 'I laugh, I cry, I kick alien butt—Futurama has it all!',
-          image: '/src/assets/logo.svg'
-        },
-        {
-          id: 3,
-          name: 'Phillip J. Fly',
-          comment: 'Futurama is the space-faring comedy I didn’t know I needed in my life!',
-          image: '/src/assets/img.png'
-        },
-        {
-          id: 4,
-          name: 'Turanga Leela',
-          comment: 'I laugh, I cry, I kick alien butt—Futurama has it all!',
-          image: '/src/assets/logo.svg'
-        }
-      ]
-    }
-  }
-}
 </script>
