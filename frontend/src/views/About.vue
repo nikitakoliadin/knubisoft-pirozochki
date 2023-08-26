@@ -35,7 +35,7 @@ const getUserImage = (user) => {
   <div class="top-toolbar">
     <div class="user-list">
       <div v-for="user in users" :key="user.id" class="user-card">
-        <div class="user-image">
+        <div class="user-developers-image">
           <img :src="getUserImage(user)" alt="User Photo">
         </div>
         <div class="user-info">
@@ -79,7 +79,7 @@ const getUserImage = (user) => {
   margin: 20px;
 }
 
-.user-image img {
+.user-developers-image img {
   width: 150px;
   height: 150px;
   border-radius: 50%;
