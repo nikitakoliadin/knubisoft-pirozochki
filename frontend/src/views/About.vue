@@ -1,17 +1,50 @@
 <script setup>
-import { RouterLink } from 'vue-router'
+import { ref, onMounted } from 'vue'
+import AboutService from "@/services/AboutService";
+const users = ref([])
+
+onMounted(() => {
+  AboutService.getAbout()
+      .then((response) => {
+        users.value = response.data
+      })
+      .catch((error) => {
+        console.log('Error loading users:', error)
+      })
+})
+
+const getUserImage = (user) => {
+  if (user.email === 'v.kostenko@knubisoft.com') {
+    return `/src/assets/vadym.jpeg`;
+  } else if (user.email === 'v.kolesnyk@knubisoft.com') {
+    return `/src/assets/vlad.jpeg`;
+  } else if (user.email === 'n.shumsky@knubisoft.com') {
+    return `/src/assets/nikita.jpeg`;
+  }
+  else if (user.email === 'n.koliadin@knubisoft.com') {
+    return `/src/assets/mentor.png`;
+  }
+  else {
+    return `/src/assets/bender.png`;
+  }
+}
 </script>
 
 
 <template>
   <div class="top-toolbar">
-    <div class="user-row">
-      <div v-for="person in about" :key="person.id" class="about-person">
-        <img :src="person.photo" alt="User Photo" class="user-photo">
-        <h1>{{ person.name }}</h1>
-        <p>Date of Birth: {{ person.date_of_birth }}</p>
-        <p>Email: {{ person.email }}</p>
-        <p>Phone Number: {{ person.phone_number }}</p>
+    <div class="user-list">
+      <div v-for="user in users" :key="user.id" class="user-card">
+        <div class="user-image">
+          <img :src="getUserImage(user)" alt="User Photo">
+        </div>
+        <div class="user-info">
+          <p><strong>Name:</strong> {{ user.name }}</p>
+          <p><strong>Surname:</strong> {{ user.surname }}</p>
+          <p><strong>Date of Birth:</strong> {{ user.dateOfBirth }}</p>
+          <p><strong>Email:</strong> {{ user.email }}</p>
+          <p><strong>Phone Number:</strong> {{ user.phoneNumber }}</p>
+        </div>
       </div>
     </div>
   </div>
@@ -19,6 +52,7 @@ import { RouterLink } from 'vue-router'
     <RouterLink :to="{ name: 'home' }" class="go-back-link">Go back</RouterLink>
   </div>
 </template>
+
 
 <style scoped>
 .top-toolbar {
@@ -31,20 +65,21 @@ import { RouterLink } from 'vue-router'
   height: 100%;
 }
 
-.user-row {
-  display: unset;
+.user-list {
+  display: flex;
   flex-direction: column;
-  justify-content: space-between;
   align-items: center;
-  padding: 100px;
+  justify-content: space-between;
+  padding: 20px;
   background-color: #faa307;
 }
 
-.about-person {
+.user-card {
   text-align: center;
+  margin: 20px;
 }
 
-.user-photo {
+.user-image img {
   width: 150px;
   height: 150px;
   border-radius: 50%;
@@ -57,7 +92,7 @@ h1 {
   margin-top: 10px;
 }
 
-p {
+.user-info p {
   font-size: 18px;
   margin: 5px 0;
 }
@@ -68,60 +103,11 @@ p {
 }
 
 .go-back-link {
-  /*text-decoration: none;*/
-  /*background-color: #007bff;*/
-  /*color: #fff;*/
-  /*padding: 10px 20px;*/
-  /*border-radius: 5px;*/
-  /*font-size: 18px;*/
-  /*transition: background-color 0.3s;*/
-  /*cursor: pointer;*/
+  background-color: #007bff;
+  color: #fff;
 }
 
 .go-back-link:hover {
   background-color: #0056b3;
 }
 </style>
-
-<script>
-export default {
-  data() {
-    return {
-      about: [
-        {
-          id: 1,
-          name: 'Vladyslav Kolesnyk',
-          date_of_birth: '20 February',
-          email: 'v.kolesnyk@knubisoft.com',
-          phone_number: '+380635922372',
-          photo: '/src/assets/vlad.jpeg'
-        },
-        {
-          id: 2,
-          name: 'Nikita Shumsky',
-          date_of_birth: '9 January',
-          email: 'n.shumsky@knubisoft.com',
-          phone_number: '+380633036736',
-          photo: '/src/assets/nikita.jpeg'
-        },
-        {
-          id: 3,
-          name: 'Vadym Kostenko',
-          date_of_birth: '27 September',
-          email: 'v.kostenko@knubisoft.com',
-          phone_number: '+380663396268',
-          photo: '/src/assets/vadym.jpeg'
-        },
-        {
-          id: 4,
-          name: 'Nikita Koliadin',
-          date_of_birth: '11 January',
-          email: 'n.koliadin@knubisoft.com',
-          phone_number: '+380951114332',
-          photo: '/src/assets/mentor.png'
-        }
-      ]
-    }
-  }
-}
-</script>

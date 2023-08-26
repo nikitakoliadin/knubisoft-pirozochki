@@ -2,6 +2,8 @@ package com.knubisoft.application.config;
 
 import com.github.cloudyrock.mongock.ChangeLog;
 import com.github.cloudyrock.mongock.ChangeSet;
+import com.knubisoft.application.about.About;
+import com.knubisoft.application.about.AboutRepository;
 import com.knubisoft.application.model.Developer;
 import com.knubisoft.application.repository.DeveloperRepository;
 import com.knubisoft.application.welcomeText.WelcomeText;
@@ -37,6 +39,22 @@ public class MongoDBInitLog {
                     " bizarre and hilarious universe of Futurama! You won’t believe what lies ahead on this totally " +
                     "tubular trip through the year 3000 and beyond."));
             welcomeTextRepository.insert(welcomeTextList);
+        }
+    }
+
+    @ChangeSet(order = "003", id = "seedAbout", author = "Vadym Kostenko")
+    public void seedAbout(final AboutRepository aboutRepository) {
+        if (aboutRepository.count() == 0) {
+            List<About> abouts = new ArrayList<>();
+            abouts.add(new About(1L, "Vadym", "Kostenko", "27 September",
+                    "v.kostenko@knubisoft.com",  "+380663396268"));
+            abouts.add(new About(2L, "Vladyslav", "Kolesnyk", "20 February'",
+                    "v.kolesnyk@knubisoft.com",  "+380635922372"));
+            abouts.add(new About(3L, "Nikita", "Shumsky", "9 January",
+                    "n.shumsky@knubisoft.com",  "+380633036736"));
+            abouts.add(new About(4L, "Nikita", "Koliadin", "11 January",
+                    "n.koliadin@knubisoft.com",  "+380951114332"));
+            aboutRepository.insert(abouts);
         }
     }
 }
