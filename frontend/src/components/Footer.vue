@@ -6,7 +6,9 @@
       <div class="vertical">
         <p class="theme-header">Site</p>
         <a class="link">Home</a>
-        <a class="link">About</a>
+        <RouterLink :to="{ name: 'about'}">
+          <a class="link">About</a>
+        </RouterLink>
         <a class="link">Contact</a>
       </div>
       <div class="vertical">

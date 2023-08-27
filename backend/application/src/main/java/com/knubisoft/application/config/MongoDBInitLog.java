@@ -2,6 +2,8 @@ package com.knubisoft.application.config;
 
 import com.github.cloudyrock.mongock.ChangeLog;
 import com.github.cloudyrock.mongock.ChangeSet;
+import com.knubisoft.application.about.About;
+import com.knubisoft.application.about.AboutRepository;
 import com.knubisoft.application.card.Card;
 import com.knubisoft.application.card.CardRepository;
 import com.knubisoft.application.faq.Faq;
@@ -44,7 +46,23 @@ public class MongoDBInitLog {
         }
     }
 
-    @ChangeSet(order = "003", id = "seedFaq", author = "Nikita Shumsky")
+    @ChangeSet(order = "003", id = "seedAbout", author = "Vadym Kostenko")
+    public void seedAbout(final AboutRepository aboutRepository) {
+        if (aboutRepository.count() == 0) {
+            List<About> abouts = new ArrayList<>();
+            abouts.add(new About(1L, "Vadym", "Kostenko", "27 September",
+                    "v.kostenko@knubisoft.com",  "+380663396268"));
+            abouts.add(new About(2L, "Vladyslav", "Kolesnyk", "20 February'",
+                    "v.kolesnyk@knubisoft.com",  "+380635922372"));
+            abouts.add(new About(3L, "Nikita", "Shumsky", "9 January",
+                    "n.shumsky@knubisoft.com",  "+380633036736"));
+            abouts.add(new About(4L, "Nikita", "Koliadin", "11 January",
+                    "n.koliadin@knubisoft.com",  "+380951114332"));
+            aboutRepository.insert(abouts);
+        }
+    }
+
+    @ChangeSet(order = "004", id = "seedFaq", author = "Nikita Shumsky")
     public void seedFaq(FaqRepository faqRepository) {
         if (faqRepository.count() == 0) {
             List<Faq> faqList = new ArrayList<>();
@@ -58,7 +76,7 @@ public class MongoDBInitLog {
         }
     }
 
-    @ChangeSet(order = "004", id = "seedCard", author = "Nikita Shumsky")
+    @ChangeSet(order = "005", id = "seedCard", author = "Nikita Shumsky")
     public void seedCard(CardRepository cardRepository) {
         if (cardRepository.count() == 0) {
             List<Card> cardList = new ArrayList<>();
