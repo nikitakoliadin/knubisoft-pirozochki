@@ -39,6 +39,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/user/create").permitAll()
                 .antMatchers("/welcomeTexts").permitAll()
                 .antMatchers("/about").permitAll()
+                .antMatchers("/faq").permitAll()
+                .antMatchers("/cards").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic()
