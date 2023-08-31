@@ -12,6 +12,7 @@ import com.knubisoft.application.model.Developer;
 import com.knubisoft.application.repository.DeveloperRepository;
 import com.knubisoft.application.welcomeText.WelcomeText;
 import com.knubisoft.application.welcomeText.WelcomeTextRepository;
+import org.springframework.data.domain.Example;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +21,7 @@ import java.util.List;
 public class MongoDBInitLog {
     @ChangeSet(order = "001", id = "seedDatabase", author = "Vladyslav Kolesnyk")
     public void seedDatabase(DeveloperRepository developerRepository) {
-        if (developerRepository.count() == 0) {
+        if (developerRepository.count(Example.of(new Developer())) == 0) {
             List<Developer> developers = new ArrayList<>();
             developers.add(new Developer(1, "Vlad", 22));
             developers.add(new Developer(2, "Nikita", 22));
@@ -31,7 +32,7 @@ public class MongoDBInitLog {
 
     @ChangeSet(order = "002", id = "seedWelcomeText", author = "Vladyslav Kolesnyk")
     public void seedWelcomeText(WelcomeTextRepository welcomeTextRepository) {
-        if (welcomeTextRepository.count() == 0) {
+        if (welcomeTextRepository.count(Example.of(new WelcomeText())) == 0) {
             List<WelcomeText> welcomeTextList = new ArrayList<>();
             welcomeTextList.add(new WelcomeText(1L, "Step into the world of Futurama, where the future is" +
                     " wilder than you could have ever imagined! Join Fry, Leela, and Bender on their absurd" +
@@ -48,23 +49,23 @@ public class MongoDBInitLog {
 
     @ChangeSet(order = "003", id = "seedAbout", author = "Vadym Kostenko")
     public void seedAbout(final AboutRepository aboutRepository) {
-        if (aboutRepository.count() == 0) {
+        if (aboutRepository.count(Example.of(new About())) == 0) {
             List<About> abouts = new ArrayList<>();
             abouts.add(new About(1L, "Vadym", "Kostenko", "27 September",
-                    "v.kostenko@knubisoft.com",  "+380663396268"));
+                    "v.kostenko@knubisoft.com", "+380663396268"));
             abouts.add(new About(2L, "Vladyslav", "Kolesnyk", "20 February'",
-                    "v.kolesnyk@knubisoft.com",  "+380635922372"));
+                    "v.kolesnyk@knubisoft.com", "+380635922372"));
             abouts.add(new About(3L, "Nikita", "Shumsky", "9 January",
-                    "n.shumsky@knubisoft.com",  "+380633036736"));
+                    "n.shumsky@knubisoft.com", "+380633036736"));
             abouts.add(new About(4L, "Nikita", "Koliadin", "11 January",
-                    "n.koliadin@knubisoft.com",  "+380951114332"));
+                    "n.koliadin@knubisoft.com", "+380951114332"));
             aboutRepository.insert(abouts);
         }
     }
 
     @ChangeSet(order = "004", id = "seedFaq", author = "Nikita Shumsky")
     public void seedFaq(FaqRepository faqRepository) {
-        if (faqRepository.count() == 0) {
+        if (faqRepository.count(Example.of(new Faq())) == 0) {
             List<Faq> faqList = new ArrayList<>();
             faqList.add(new Faq(1L, "What year does Futurama take place?",
                     "Futurama primarily takes place in the year 3000, but expect lots of time-travel shenanigans!"));
@@ -78,7 +79,7 @@ public class MongoDBInitLog {
 
     @ChangeSet(order = "005", id = "seedCard", author = "Nikita Shumsky")
     public void seedCard(CardRepository cardRepository) {
-        if (cardRepository.count() == 0) {
+        if (cardRepository.count(Example.of(new Card())) == 0) {
             List<Card> cardList = new ArrayList<>();
             cardList.add(new Card(1L, "Phillip J. Fly",
                     "Futurama is the space-faring comedy I didn’t know I needed in my life!", "/src/assets/img.png"));
