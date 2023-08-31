@@ -4,17 +4,20 @@ import com.knubisoft.application.exception.CustomAuthenticationFailureHandler;
 import com.knubisoft.application.user.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 
 
 @EnableWebSecurity
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+@Configuration
+public class SecurityConfig {
 
     private final UserDetailsServiceImpl userDetailsService;
     private final CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
@@ -25,37 +28,33 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         this.customAuthenticationFailureHandler = customAuthenticationFailureHandler;
     }
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-    }
-
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    @Bean
+    protected SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        AuthenticationManagerBuilder authenticationManagerBuilder =
+                http.getSharedObject(AuthenticationManagerBuilder.class);
+        authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+        AuthenticationManager authenticationManager = authenticationManagerBuilder.build();
         http
-                .csrf().disable()
-                .authorizeRequests()
-                .antMatchers("/users").authenticated()
-                .antMatchers("/user/create").permitAll()
-                .antMatchers("/welcomeTexts").permitAll()
-                .antMatchers("/about").permitAll()
-                .antMatchers("/faq").permitAll()
-                .antMatchers("/cards").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .httpBasic()
-                .authenticationEntryPoint(customAuthenticationFailureHandler);
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests((requests) -> requests
+                        .requestMatchers("/users").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/user/create").permitAll()
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                        .requestMatchers("/actuator/**").permitAll()
+                        .requestMatchers("/welcomeTexts").permitAll()
+                        .requestMatchers("/about").permitAll()
+                        .requestMatchers("/faq").permitAll()
+                        .requestMatchers("/cards").permitAll()
+                        .anyRequest().authenticated())
+                .authenticationManager(authenticationManager)
+                .httpBasic(httpSecurityHttpBasicConfigurer -> {
+                });
+        return http.build();
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
-    }
-
-    @Override
-    @Bean
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
     }
 }
 

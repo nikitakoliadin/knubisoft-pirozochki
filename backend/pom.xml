@@ -14,7 +14,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.6.4</version>
+        <version>3.1.2</version>
         <relativePath/>
     </parent>
 
@@ -27,6 +27,15 @@
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
             <!-- Spring Boot plugin -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -42,12 +51,10 @@
     </build>
 
     <properties>
-        <java.vesion>1.8</java.vesion>
-        <spring.version>2.6.4</spring.version>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
+        <java.vesion>17</java.vesion>
+        <spring.version>6.0.11</spring.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring.spring-cloud-dependencies.version>2021.0.1</spring.spring-cloud-dependencies.version>
+        <spring.spring-cloud-dependencies.version>2022.0.4</spring.spring-cloud-dependencies.version>
         <jasypt.version>3.0.5</jasypt.version>
     </properties>
 
