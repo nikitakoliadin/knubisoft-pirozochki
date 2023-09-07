@@ -13,5 +13,5 @@ public class Card {
     private Long id;
     private String name;
     private String comment;
-    private String imagePath;
+    private String image;
 }

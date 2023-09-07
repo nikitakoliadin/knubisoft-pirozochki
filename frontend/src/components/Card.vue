@@ -1,27 +1,38 @@
 <script setup>
-import {ref, onMounted} from 'vue'
-import CardsService from '@/services/CardsService'
+import { ref, onMounted } from 'vue'
+import CardsApi from '../api/CardsApi'
+
+const cardsApi = new CardsApi()
 
 const cards = ref(null)
-onMounted(() => {
-  CardsService.getCards()
-      .then((response) => {
-        cards.value = response.data
-        console.log(cards);
-      })
-      .catch((error) => {
-        console.log(error)
-      })
+onMounted(async () => {
+  try {
+    const response = await cardsApi.getCards()
+    console.log(response.data)
+    cards.value = response.data
+  } catch (error) {
+    console.error(error)
+  }
 })
 </script>
 
 <template>
   <div v-for="card in cards" :key="card.id" class="card">
-    <img :src="card.imagePath" alt="" />
+    <img :src="decodeBase64ToSVG(card.image)" alt="" />
     <h3>{{ card.comment }}}</h3>
     <p>{{ card.name }}</p>
   </div>
 </template>
+
+<script>
+export default {
+  methods: {
+    decodeBase64ToSVG(base64String) {
+      return `data:image/svg+xml;base64,${base64String}`
+    }
+  }
+}
+</script>
 
 <style scoped>
 .card {
@@ -40,6 +51,7 @@ onMounted(() => {
   flex-wrap: wrap;
   border-radius: 20px;
 }
+
 .card img {
   width: 50px;
   height: 50px;
@@ -51,6 +63,7 @@ onMounted(() => {
   background-position: center;
   border-radius: 100px;
 }
+
 .card h3 {
   width: 100%;
   flex: 1;
@@ -91,5 +104,3 @@ onMounted(() => {
   }
 }
 </style>
-<script>
-</script>

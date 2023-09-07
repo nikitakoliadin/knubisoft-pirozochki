@@ -23,4 +23,5 @@ public class About {
     private String dateOfBirth;
     private String email;
     private String phoneNumber;
+    private String photo;
 }

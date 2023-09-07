@@ -1,42 +1,28 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-import AboutService from "@/services/AboutService";
 const users = ref([])
+import AboutApi from '../api/AboutApi'
+
+const aboutApi = new AboutApi()
 
 onMounted(() => {
-  AboutService.getAbout()
-      .then((response) => {
-        users.value = response.data
-      })
-      .catch((error) => {
-        console.log('Error loading users:', error)
-      })
+  aboutApi
+    .getAbout()
+    .then((response) => {
+      users.value = response.data
+    })
+    .catch((error) => {
+      console.log('Error loading users:', error)
+    })
 })
-
-const getUserImage = (user) => {
-  if (user.email === 'v.kostenko@knubisoft.com') {
-    return `/src/assets/vadym.jpeg`;
-  } else if (user.email === 'v.kolesnyk@knubisoft.com') {
-    return `/src/assets/vlad.jpeg`;
-  } else if (user.email === 'n.shumsky@knubisoft.com') {
-    return `/src/assets/nikita.jpeg`;
-  }
-  else if (user.email === 'n.koliadin@knubisoft.com') {
-    return `/src/assets/mentor.png`;
-  }
-  else {
-    return `/src/assets/bender.png`;
-  }
-}
 </script>
-
 
 <template>
   <div class="top-toolbar">
     <div class="user-list">
       <div v-for="user in users" :key="user.id" class="user-card">
         <div class="user-developers-image">
-          <img :src="getUserImage(user)" alt="User Photo">
+          <img :src="decodeBase64(user.photo)" alt="User Photo" />
         </div>
         <div class="user-info">
           <p><strong>Name:</strong> {{ user.name }}</p>
@@ -52,7 +38,6 @@ const getUserImage = (user) => {
     <RouterLink :to="{ name: 'home' }" class="go-back-link">Go back</RouterLink>
   </div>
 </template>
-
 
 <style scoped>
 .top-toolbar {
@@ -111,3 +96,13 @@ h1 {
   background-color: #0056b3;
 }
 </style>
+
+<script>
+export default {
+  methods: {
+    decodeBase64(base64String) {
+      return `data:image/jpeg;base64,${base64String}`
+    }
+  }
+}
+</script>
