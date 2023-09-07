@@ -1,16 +1,17 @@
 <script setup>
-import {ref, onMounted} from 'vue'
-import FaqService from '@/services/FaqService'
+import { ref, onMounted } from 'vue'
+import FaqApi from '../api/FaqApi'
+
+const faqApi = new FaqApi()
 
 const faqs = ref(null)
-onMounted(() => {
-  FaqService.getFaq()
-      .then((response) => {
-        faqs.value = response.data
-      })
-      .catch((error) => {
-        console.log(error)
-      })
+onMounted(async () => {
+  try {
+    const response = await faqApi.getFaq()
+    faqs.value = response.data
+  } catch (error) {
+    console.log(error)
+  }
 })
 </script>
 

@@ -1,16 +1,17 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-import WelcomeTextsService from '@/services/WelcomeTextsService'
+import WelcomeTextApi from '../api/WelcomeTextApi'
+
+const welcomeTextApi = new WelcomeTextApi()
 
 const texts = ref(null)
-onMounted(() => {
-  WelcomeTextsService.getTexts()
-    .then((response) => {
-      texts.value = response.data
-    })
-    .catch((error) => {
-      console.log(error)
-    })
+onMounted(async () => {
+  try {
+    const response = await welcomeTextApi.getTexts()
+    texts.value = response.data
+  } catch (error) {
+    console.error(error)
+  }
 })
 </script>
 

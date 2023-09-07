@@ -12,13 +12,20 @@ import com.knubisoft.application.model.Developer;
 import com.knubisoft.application.repository.DeveloperRepository;
 import com.knubisoft.application.welcomeText.WelcomeText;
 import com.knubisoft.application.welcomeText.WelcomeTextRepository;
+import lombok.SneakyThrows;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.domain.Example;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 @ChangeLog
 public class MongoDBInitLog {
+
     @ChangeSet(order = "001", id = "seedDatabase", author = "Vladyslav Kolesnyk")
     public void seedDatabase(DeveloperRepository developerRepository) {
         if (developerRepository.count(Example.of(new Developer())) == 0) {
@@ -47,18 +54,19 @@ public class MongoDBInitLog {
         }
     }
 
+    @SneakyThrows
     @ChangeSet(order = "003", id = "seedAbout", author = "Vadym Kostenko")
     public void seedAbout(final AboutRepository aboutRepository) {
         if (aboutRepository.count(Example.of(new About())) == 0) {
             List<About> abouts = new ArrayList<>();
             abouts.add(new About(1L, "Vadym", "Kostenko", "27 September",
-                    "v.kostenko@knubisoft.com", "+380663396268"));
+                    "v.kostenko@knubisoft.com", "+380663396268", encodeImageToBase64("/vadym.jpeg")));
             abouts.add(new About(2L, "Vladyslav", "Kolesnyk", "20 February'",
-                    "v.kolesnyk@knubisoft.com", "+380635922372"));
+                    "v.kolesnyk@knubisoft.com", "+380635922372", encodeImageToBase64("/vlad.jpeg")));
             abouts.add(new About(3L, "Nikita", "Shumsky", "9 January",
-                    "n.shumsky@knubisoft.com", "+380633036736"));
+                    "n.shumsky@knubisoft.com", "+380633036736", encodeImageToBase64("/nikita.jpeg")));
             abouts.add(new About(4L, "Nikita", "Koliadin", "11 January",
-                    "n.koliadin@knubisoft.com", "+380951114332"));
+                    "n.koliadin@knubisoft.com", "+380951114332", encodeImageToBase64("/mentor.png")));
             aboutRepository.insert(abouts);
         }
     }
@@ -77,19 +85,28 @@ public class MongoDBInitLog {
         }
     }
 
+    @SneakyThrows
     @ChangeSet(order = "005", id = "seedCard", author = "Nikita Shumsky")
     public void seedCard(CardRepository cardRepository) {
         if (cardRepository.count(Example.of(new Card())) == 0) {
             List<Card> cardList = new ArrayList<>();
+            String logoBase64 = encodeImageToBase64("/logo.svg");
+            String imgBase64 = encodeImageToBase64("/img.svg");
             cardList.add(new Card(1L, "Phillip J. Fly",
-                    "Futurama is the space-faring comedy I didn’t know I needed in my life!", "/src/assets/img.png"));
+                    "Futurama is the space-faring comedy I didn’t know I needed in my life!", imgBase64));
             cardList.add(new Card(2L, "Turanga Leela",
-                    "I laugh, I cry, I kick alien butt—Futurama has it all!", "/src/assets/logo.svg"));
+                    "I laugh, I cry, I kick alien butt—Futurama has it all!", logoBase64));
             cardList.add(new Card(3L, "Phillip J. Flys",
-                    "Futurama is the space-faring comedy I didn’t know I needed in my life!", "/src/assets/img.png"));
+                    "Futurama is the space-faring comedy I didn’t know I needed in my life!", imgBase64));
             cardList.add(new Card(4L, "Turanga Leelaq",
-                    "I laugh, I cry, I kick alien butt—Futurama has it all!", "/src/assets/logo.svg"));
+                    "I laugh, I cry, I kick alien butt—Futurama has it all!", logoBase64));
             cardRepository.insert(cardList);
         }
+    }
+
+    private String encodeImageToBase64(final String imagePath) throws IOException {
+        String imagesResourcePath = new ClassPathResource("images").getFile().getAbsolutePath();
+        byte[] imageBytes = Files.readAllBytes(new File(imagesResourcePath + imagePath).toPath());
+        return Base64.getEncoder().encodeToString(imageBytes);
     }
 }

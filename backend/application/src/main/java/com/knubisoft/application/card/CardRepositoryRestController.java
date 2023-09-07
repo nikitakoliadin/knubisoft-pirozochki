@@ -1,6 +1,5 @@
 package com.knubisoft.application.card;
 
-import com.knubisoft.application.welcomeText.DefaultWelcomeTextService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
