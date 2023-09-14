@@ -8,7 +8,6 @@ const cards = ref(null)
 onMounted(async () => {
   try {
     const response = await cardsApi.getCards()
-    console.log(response.data)
     cards.value = response.data
   } catch (error) {
     console.error(error)
@@ -93,7 +92,7 @@ export default {
   font-family: 'Archivo', 'Archivo Placeholder', sans-serif;
   color: #370617;
   font-size: 14px;
-  letter-spacing: 0em;
+  letter-spacing: 0;
   line-height: 1.5;
   text-align: center;
 }
