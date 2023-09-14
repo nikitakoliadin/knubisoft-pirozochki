@@ -3,7 +3,7 @@ import axios from 'axios'
 export default class BaseApi {
   constructor() {
     this.instance = axios.create({
-      baseURL: 'http://localhost:8080',
+      baseURL: 'http://localhost:9090/api',
       withCredentials: false,
       headers: {
         Accept: 'application/json',
