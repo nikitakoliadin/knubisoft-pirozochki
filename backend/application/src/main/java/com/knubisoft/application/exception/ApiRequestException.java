@@ -3,11 +3,11 @@ package com.knubisoft.application.exception;
 
 public class ApiRequestException extends RuntimeException {
 
-    public ApiRequestException(String message) {
+    public ApiRequestException(final String message) {
         super(message);
     }
 
-    public ApiRequestException(String message, Throwable cause) {
+    public ApiRequestException(final String message, final Throwable cause) {
         super(message, cause);
     }
 }

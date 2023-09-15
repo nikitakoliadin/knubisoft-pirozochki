@@ -1,14 +1,11 @@
 package com.knubisoft.application.user;
 
 
-import com.knubisoft.application.user.User;
-import com.knubisoft.application.user.DefaultUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,11 +22,10 @@ public class UserRepositoryRestController {
         return ResponseEntity.ok(defaultUserService.findAll());
     }
 
-    @RequestMapping(value = "/user/change-email", method = RequestMethod.PATCH)
-    public @ResponseBody ResponseEntity<?> changeEmail(Principal principal, @RequestBody String email) {
+    @PatchMapping(value = "/user/change-email")
+    public @ResponseBody ResponseEntity<?> changeEmail(final Principal principal, @RequestBody final String email) {
         User user = defaultUserService.findByUsername(principal.getName());
         defaultUserService.updateEmail(user, email);
         return ResponseEntity.ok(user);
     }
-
 }

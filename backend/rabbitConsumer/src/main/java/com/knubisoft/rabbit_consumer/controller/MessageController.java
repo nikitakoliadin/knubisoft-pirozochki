@@ -1,7 +1,7 @@
-package com.knubisoft.rabbitConsumer.controller;
+package com.knubisoft.rabbit_consumer.controller;
 
 
-import com.knubisoft.rabbitConsumer.rabbitmq.Receiver;
+import com.knubisoft.rabbit_consumer.rabbitmq.Receiver;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

@@ -1,4 +1,4 @@
-package com.knubisoft.rabbitConsumer.rabbitmq;
+package com.knubisoft.rabbit_consumer.rabbitmq;
 
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
@@ -13,37 +13,37 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class RabbitConsumer {
-    static final String topicExchangeName = "spring-boot-exchange";
 
-    static final String queueName = "spring";
+    private static final String TOPIC_EXCHANGE_NAME = "spring-boot-exchange";
+    private static final String QUEUE_NAME = "spring";
 
     @Bean
     Queue newQueue() {
-        return new Queue(queueName, false);
+        return new Queue(QUEUE_NAME, false);
     }
 
     @Bean
     TopicExchange exchange() {
-        return new TopicExchange(topicExchangeName);
+        return new TopicExchange(TOPIC_EXCHANGE_NAME);
     }
 
     @Bean
-    Binding binding(Queue queue, TopicExchange exchange) {
+    Binding binding(final Queue queue, final TopicExchange exchange) {
         return BindingBuilder.bind(queue).to(exchange).with("foo.bar.#");
     }
 
     @Bean
-    SimpleMessageListenerContainer container(ConnectionFactory connectionFactory,
-                                             MessageListenerAdapter listenerAdapter) {
+    SimpleMessageListenerContainer container(final ConnectionFactory connectionFactory,
+                                             final MessageListenerAdapter listenerAdapter) {
         SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
-        container.setQueueNames(queueName);
+        container.setQueueNames(QUEUE_NAME);
         container.setMessageListener(listenerAdapter);
         return container;
     }
 
     @Bean
-    MessageListenerAdapter listenerAdapter(Receiver receiver) {
+    MessageListenerAdapter listenerAdapter(final Receiver receiver) {
         return new MessageListenerAdapter(receiver, "receiveMessage");
     }
 }

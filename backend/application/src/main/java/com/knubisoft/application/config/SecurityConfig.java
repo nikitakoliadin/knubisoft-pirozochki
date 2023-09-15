@@ -23,20 +23,22 @@ public class SecurityConfig {
     private final CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
 
     @Autowired
-    public SecurityConfig(UserDetailsServiceImpl userDetailsService, CustomAuthenticationFailureHandler customAuthenticationFailureHandler) {
+    public SecurityConfig(final UserDetailsServiceImpl userDetailsService,
+                          final CustomAuthenticationFailureHandler customAuthenticationFailureHandler) {
         this.userDetailsService = userDetailsService;
         this.customAuthenticationFailureHandler = customAuthenticationFailureHandler;
     }
 
+    //CHECKSTYLE:OFF
     @Bean
-    protected SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    protected SecurityFilterChain securityFilterChain(final HttpSecurity http) throws Exception {
         AuthenticationManagerBuilder authenticationManagerBuilder =
                 http.getSharedObject(AuthenticationManagerBuilder.class);
         authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
         AuthenticationManager authenticationManager = authenticationManagerBuilder.build();
         http
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests((requests) -> requests
+                .authorizeHttpRequests(requests -> requests
                         .requestMatchers("/users").authenticated()
                         .requestMatchers(HttpMethod.POST, "/user/create").permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
@@ -51,6 +53,7 @@ public class SecurityConfig {
                 });
         return http.build();
     }
+    //CHECKSTYLE:ON
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {

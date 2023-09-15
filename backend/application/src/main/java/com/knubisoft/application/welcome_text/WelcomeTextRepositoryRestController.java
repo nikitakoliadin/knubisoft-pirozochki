@@ -1,4 +1,4 @@
-package com.knubisoft.application.welcomeText;
+package com.knubisoft.application.welcome_text;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,7 +12,7 @@ public class WelcomeTextRepositoryRestController {
     private final DefaultWelcomeTextService defaultWelcomeTextService;
 
     @Autowired
-    public WelcomeTextRepositoryRestController(DefaultWelcomeTextService defaultWelcomeTextService) {
+    public WelcomeTextRepositoryRestController(final DefaultWelcomeTextService defaultWelcomeTextService) {
         this.defaultWelcomeTextService = defaultWelcomeTextService;
     }
 

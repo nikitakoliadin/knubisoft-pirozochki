@@ -12,7 +12,7 @@ public class CardRepositoryRestController {
     private final DefaultCardService defaultCardService;
 
     @Autowired
-    public CardRepositoryRestController(DefaultCardService defaultCardService) {
+    public CardRepositoryRestController(final DefaultCardService defaultCardService) {
         this.defaultCardService = defaultCardService;
     }
 

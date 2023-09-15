@@ -13,7 +13,7 @@ public class FaqRepositoryRestController {
     private final DefaultFaqService defaultFaqService;
 
     @Autowired
-    public FaqRepositoryRestController(DefaultFaqService defaultFaqService) {
+    public FaqRepositoryRestController(final DefaultFaqService defaultFaqService) {
         this.defaultFaqService = defaultFaqService;
     }
 

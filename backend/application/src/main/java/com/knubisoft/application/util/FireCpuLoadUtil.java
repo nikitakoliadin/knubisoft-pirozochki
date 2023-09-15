@@ -13,6 +13,9 @@ import java.util.concurrent.CompletableFuture;
 @Slf4j
 @Component
 public class FireCpuLoadUtil {
+
+    private static final int FIVE_SECONDS = 5000;
+
     @Async
     public void fireCpuLoad() {
         OperatingSystemMXBean bean = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
@@ -23,7 +26,7 @@ public class FireCpuLoadUtil {
     public CompletableFuture<Double> getFireCpuLoader() {
         OperatingSystemMXBean bean = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
         try {
-            Thread.sleep(5000);
+            Thread.sleep(FIVE_SECONDS);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }

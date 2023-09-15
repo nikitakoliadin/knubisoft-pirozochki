@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FindBugsFilter>
+
+    <Match>
+        <Class name="com.knubisoft.application.ApplicationTests"/>
+        <Bug pattern="DM_DEFAULT_ENCODING"/>
+    </Match>
+
+    <Match>
+        <Class name="com.knubisoft.application.ApplicationTests"/>
+        <Method name="getPrivateKey"/>
+        <Bug pattern="OS_OPEN_STREAM"/>
+    </Match>
+</FindBugsFilter>

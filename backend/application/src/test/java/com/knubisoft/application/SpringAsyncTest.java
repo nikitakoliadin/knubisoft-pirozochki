@@ -15,8 +15,10 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @RequiredArgsConstructor
 @TestPropertySource("classpath:test-application.properties")
 public class SpringAsyncTest {
+
     @Autowired
     private TaskService taskService;
+
     @Test
     public void testProcessTaskAsync() throws Exception {
         Task firstTask = new Task();

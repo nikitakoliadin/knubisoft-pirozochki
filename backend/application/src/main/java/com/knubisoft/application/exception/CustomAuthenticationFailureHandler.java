@@ -12,7 +12,9 @@ public class CustomAuthenticationFailureHandler implements AuthenticationEntryPo
 
     @Override
     @SneakyThrows
-    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) {
+    public void commence(final HttpServletRequest request,
+                         final HttpServletResponse response,
+                         final AuthenticationException authException) {
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.setContentType("application/json");
         response.getWriter().write("{ \"error\": \"Unauthorized\" }");

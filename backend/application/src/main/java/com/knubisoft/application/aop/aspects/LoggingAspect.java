@@ -19,7 +19,7 @@ public class LoggingAspect {
     }
 
     @Pointcut("execution(* com.knubisoft.application.service.EmailServiceImpl.sendEmail(..))")
-    private void mailSendResult() {}
+    private void mailSendResult() { }
 
     @AfterReturning("mailSendResult()")
     public void afterSuccessMailSend() {

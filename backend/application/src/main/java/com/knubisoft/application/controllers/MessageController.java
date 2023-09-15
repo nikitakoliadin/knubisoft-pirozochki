@@ -20,7 +20,7 @@ public class MessageController {
     }
 
     @PostMapping("/sendCustom")
-    public void sendCustomMessage(@RequestBody String customMessage) {
+    public void sendCustomMessage(@RequestBody final String customMessage) {
         rabbitMessageSender.sendCustomMessage(customMessage);
     }
 

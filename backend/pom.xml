@@ -56,6 +56,10 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring.spring-cloud-dependencies.version>2022.0.4</spring.spring-cloud-dependencies.version>
         <jasypt.version>3.0.5</jasypt.version>
+        <checkstyle.maven.plugin.version>3.1.2</checkstyle.maven.plugin.version>
+        <com.puppycrawl.tools.checkstyle.version>8.41</com.puppycrawl.tools.checkstyle.version>
+        <spotbugs.maven.plugin.version>4.7.2.1</spotbugs.maven.plugin.version>
+        <spotbugs.version>4.7.3</spotbugs.version>
     </properties>
 
     <dependencyManagement>
@@ -107,4 +111,75 @@
         </dependency>
 
     </dependencies>
+
+    <profiles>
+        <profile>
+            <id>quality-checking</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-checkstyle-plugin</artifactId>
+                        <version>${checkstyle.maven.plugin.version}</version>
+                        <dependencies>
+                            <dependency>
+                                <groupId>com.puppycrawl.tools</groupId>
+                                <artifactId>checkstyle</artifactId>
+                                <version>${com.puppycrawl.tools.checkstyle.version}</version>
+                            </dependency>
+                        </dependencies>
+                        <configuration>
+                            <encoding>UTF-8</encoding>
+                            <configLocation>check_style.xml</configLocation>
+                            <consoleOutput>true</consoleOutput>
+                            <logViolationsToConsole>true</logViolationsToConsole>
+                            <failsOnError>true</failsOnError>
+                            <linkXRef>false</linkXRef>
+                            <includeTestSourceDirectory>true</includeTestSourceDirectory>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>check-style</id>
+                                <phase>validate</phase>
+                                <goals>
+                                    <goal>check</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>com.github.spotbugs</groupId>
+                        <artifactId>spotbugs-maven-plugin</artifactId>
+                        <version>${spotbugs.maven.plugin.version}</version>
+                        <configuration>
+                            <effort>Max</effort>
+                            <threshold>Low</threshold>
+                            <xmlOutput>true</xmlOutput>
+                            <excludeFilterFile>spotbugs-exclude.xml</excludeFilterFile>
+                            <spotbugsXmlOutputDirectory>${project.build.directory}/spotbugs
+                            </spotbugsXmlOutputDirectory>
+                            <classFilesDirectory>${project.build.testOutputDirectory}</classFilesDirectory>
+                        </configuration>
+                        <dependencies>
+                            <dependency>
+                                <groupId>com.github.spotbugs</groupId>
+                                <artifactId>spotbugs</artifactId>
+                                <version>${spotbugs.version}</version>
+                            </dependency>
+                        </dependencies>
+                        <executions>
+                            <execution>
+                                <id>analyze-code</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>check</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
