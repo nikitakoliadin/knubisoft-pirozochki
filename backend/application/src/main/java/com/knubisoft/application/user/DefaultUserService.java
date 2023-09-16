@@ -39,12 +39,14 @@ public class DefaultUserService implements UserService {
         return user;
     }
 
+    //CHECKSTYLE:OFF
     @Override
-    public void updateUser(User user, Principal principal) {
+    public void updateUser(final User user, final Principal principal) {
         User u = userRepository.findByUsername(principal.getName());
         boolean isModified = false;
-        if (u == null)
+        if (u == null) {
             throw new RuntimeException(String.format("User %s is not found", principal.getName()));
+        }
         if (user.getName() != null) {
             u.setName(user.getName());
             isModified = true;
@@ -57,12 +59,12 @@ public class DefaultUserService implements UserService {
             u.setEmail(user.getEmail());
             isModified = true;
         }
-
         if (isModified) {
             u.setLastModified(LocalDateTime.now());
             log.info("User Updated {}", u);
         }
     }
+    //CHECKSTYLE:ON
 
     @Override
     public User updateEmail(final User user, final String email) {
@@ -85,6 +87,6 @@ public class DefaultUserService implements UserService {
 
     @Transactional(readOnly = true)
     public User findById(final Long id) {
-        return userRepository.findById(id).get();
+        return userRepository.findById(id).orElseThrow();
     }
 }

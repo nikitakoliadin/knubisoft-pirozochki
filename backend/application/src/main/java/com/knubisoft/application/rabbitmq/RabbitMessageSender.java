@@ -8,7 +8,7 @@ import java.util.Objects;
 public class RabbitMessageSender {
     private final RabbitProducer rabbitProducer;
 
-    public RabbitMessageSender(RabbitProducer rabbitProducer) {
+    public RabbitMessageSender(final RabbitProducer rabbitProducer) {
         this.rabbitProducer = rabbitProducer;
     }
 
@@ -16,7 +16,7 @@ public class RabbitMessageSender {
         rabbitProducer.sendMessage("Hello, RabbitMQ!");
     }
 
-    public void sendCustomMessage(String message) {
+    public void sendCustomMessage(final String message) {
         rabbitProducer.sendMessage(Objects.requireNonNull(message));
     }
 }

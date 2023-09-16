@@ -33,7 +33,7 @@ public class EncryptionImpl implements Encryption {
 
     @Override
     @SneakyThrows
-    public byte[] encryptData(byte[] data, byte[] encryptionCertificateData) {
+    public byte[] encryptData(final byte[] data, final byte[] encryptionCertificateData) {
         if (isNull(data) || isNull(encryptionCertificateData)) {
             throw new RuntimeException("No data to encrypt");
         }
@@ -46,14 +46,13 @@ public class EncryptionImpl implements Encryption {
         CMSTypedData msg = new CMSProcessableByteArray(data);
         OutputEncryptor encryptor = new JceCMSContentEncryptorBuilder(CMSAlgorithm.AES128_CBC)
                 .setProvider("BC").build();
-        CMSEnvelopedData cmsEnvelopedData = cmsEnvelopedDataGenerator.generate(msg, encryptor);
-        return cmsEnvelopedData.getEncoded();
+        return cmsEnvelopedDataGenerator.generate(msg, encryptor).getEncoded();
     }
 
 
     @Override
     @SneakyThrows
-    public byte[] decryptData(byte[] encryptedData, byte[] decryptionKeyData) {
+    public byte[] decryptData(final byte[] encryptedData, final byte[] decryptionKeyData) {
         if (isNull(encryptedData) || isNull(decryptionKeyData)) {
             throw new RuntimeException("No data to decrypt");
         }

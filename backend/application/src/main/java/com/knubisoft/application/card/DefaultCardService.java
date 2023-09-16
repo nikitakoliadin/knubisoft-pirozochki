@@ -11,7 +11,7 @@ public class DefaultCardService implements CardService {
     private final CardRepository cardRepository;
 
     @Autowired
-    public DefaultCardService(CardRepository cardRepository) {
+    public DefaultCardService(final CardRepository cardRepository) {
         this.cardRepository = cardRepository;
     }
 

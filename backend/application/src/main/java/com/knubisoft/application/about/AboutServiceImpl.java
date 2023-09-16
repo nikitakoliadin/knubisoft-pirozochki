@@ -7,7 +7,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class AboutServiceImpl implements AboutService{
+public class AboutServiceImpl implements AboutService {
     private final AboutRepository aboutRepository;
 
     @Override

@@ -18,21 +18,20 @@ public class WebSecurityConfig {
     private final AdminServerProperties adminServer;
 
     @Autowired
-    public WebSecurityConfig(AdminServerProperties adminServer) {
+    public WebSecurityConfig(final AdminServerProperties adminServer) {
         this.adminServer = adminServer;
     }
 
     @Bean
-    protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    protected SecurityFilterChain filterChain(final HttpSecurity http) throws Exception {
         return http
-                .csrf((csrf) -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                .csrf(csrf -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                         .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()).ignoringRequestMatchers(
                                 new AntPathRequestMatcher(this.adminServer.path("/instances"), POST.toString()),
                                 new AntPathRequestMatcher(this.adminServer.path("/instances/*"), DELETE.toString()),
                                 new AntPathRequestMatcher(this.adminServer.path("/actuator/**"))))
-                .authorizeHttpRequests((authorizeRequests) -> authorizeRequests
+                .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                         .anyRequest().permitAll())
                 .build();
     }
-
 }

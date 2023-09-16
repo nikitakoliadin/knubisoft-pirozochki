@@ -12,14 +12,15 @@ import java.util.concurrent.CompletableFuture;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class TaskServiceImpl implements TaskService{
+public class TaskServiceImpl implements TaskService {
 
+    private static final int FIVE_SECONDS = 5000;
     private final FireCpuLoadUtil cpuLoadUtil;
     @Async
     public CompletableFuture<Task> processTaskAsync(final Task task) {
         log.info("Processing task asynchronously: {} - {}", task.getId(), task.getName());
         try {
-            Thread.sleep(5000);
+            Thread.sleep(FIVE_SECONDS);
             cpuLoadUtil.fireCpuLoad();
         } catch (InterruptedException e) {
             log.error("Task processing interrupted: {} - {}", task.getId(), task.getName());

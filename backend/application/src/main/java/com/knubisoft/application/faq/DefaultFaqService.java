@@ -11,7 +11,7 @@ public class DefaultFaqService implements FaqService {
     private final FaqRepository faqRepository;
 
     @Autowired
-    public DefaultFaqService(FaqRepository faqRepository) {
+    public DefaultFaqService(final FaqRepository faqRepository) {
         this.faqRepository = faqRepository;
     }
 

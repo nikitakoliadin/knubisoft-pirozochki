@@ -1,4 +1,4 @@
-package com.knubisoft.application.welcomeText;
+package com.knubisoft.application.welcome_text;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
