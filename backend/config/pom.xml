@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.knubisoft</groupId>
+        <artifactId>backend</artifactId>
+        <version>1.0.0</version>
+    </parent>
+
+    <artifactId>config</artifactId>
+    <version>1.0.0</version>
+    <packaging>jar</packaging>
+
+    <name>config</name>
+    <description>config</description>
+
+    <properties>
+        <mainClass>com.knubisoft.config.ConfigApplication</mainClass>
+        <!-- JAR plugin -->
+        <jar-plugin.addClasspath>true</jar-plugin.addClasspath>
+        <jar-plugin.classpathPrefix>lib/</jar-plugin.classpathPrefix>
+
+        <!-- Dependency plugin -->
+        <dependency-plugin.overWriteReleases>false</dependency-plugin.overWriteReleases>
+        <dependency-plugin.overWriteSnapshots>false</dependency-plugin.overWriteSnapshots>
+        <dependency-plugin.overWriteIfNewer>true</dependency-plugin.overWriteIfNewer>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-config-server</artifactId>
+        </dependency>
+    </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring.spring-cloud-dependencies.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <!-- JAR plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>${jar-plugin.addClasspath}</addClasspath>
+                            <classpathPrefix>${jar-plugin.classpathPrefix}</classpathPrefix>
+                            <mainClass>${mainClass}</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+            <!-- Dependency plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <configuration>
+                    <outputDirectory>${project.build.directory}/lib/</outputDirectory>
+                    <overWriteReleases>${dependency-plugin.overWriteReleases}</overWriteReleases>
+                    <overWriteSnapshots>${dependency-plugin.overWriteSnapshots}</overWriteSnapshots>
+                    <overWriteIfNewer>${dependency-plugin.overWriteIfNewer}</overWriteIfNewer>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
