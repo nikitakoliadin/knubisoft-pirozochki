@@ -1,5 +1,5 @@
 <script setup>
-import HomeView from '@/views/HomeView.vue'
+
 </script>
 <script>
 export default {
@@ -58,6 +58,11 @@ export default {
   padding: 0 0;
   margin: 0;
 }
+
+#app a {
+  text-decoration: none;
+}
+
 body {
   place-items: unset;
 }
