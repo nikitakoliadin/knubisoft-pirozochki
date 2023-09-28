@@ -1,17 +1,16 @@
-<script setup lang="ts">
-import { ref, type Ref } from 'vue'
+<script setup>
+import { ref } from 'vue'
 
 import CodeMirror from 'vue-codemirror6'
 import {esLint, javascript} from "@codemirror/lang-javascript"
-import type { LintSource } from '@codemirror/lint';
 import eslint from 'eslint-linter-browserify';
 import { RouterLink } from 'vue-router'
 
 /** CodeMirror Instance */
-const cm: Ref<InstanceType<typeof CodeMirror> | undefined> = ref()
+const cm = ref()
 
 /** Demo code */
-const value: Ref<string> = ref(`document.querySelectorAll('.btn').forEach(
+const value = ref(`document.querySelectorAll('.btn').forEach(
   element => element.addEventListener('click', alert('Button clicked!')));
 );`)
 
@@ -30,7 +29,7 @@ const linter_config = {
   },
 };
 
-const linter: LintSource = esLint(new eslint.Linter());
+const linter = esLint(new eslint.Linter());
 // Sync dark mode
 defineProps({ dark: Boolean })
 </script>
