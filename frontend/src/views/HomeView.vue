@@ -16,9 +16,14 @@ import QuestionsAnswers from '@/components/QuestionsAnswers.vue'
             <span class="custom-link"> Episodes </span>
           </RouterLink>
           <RouterLink :to="{ name: 'characters' }">
-            <span class="custom-link"> Characters </span></RouterLink
-          >
-          <RouterLink :to="{ name: 'shop' }"> <span class="custom-link"> Shop </span></RouterLink>
+            <span class="custom-link"> Characters </span>
+          </RouterLink>
+          <RouterLink :to="{ name: 'shop' }">
+            <span class="custom-link"> Shop </span>
+          </RouterLink>
+          <RouterLink :to="{ name: 'codemirror' }">
+            <span class="custom-link"> Codemirror </span>
+          </RouterLink>
         </nav>
       </div>
     </div>

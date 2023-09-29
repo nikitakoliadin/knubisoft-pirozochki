@@ -17,28 +17,69 @@ const value =
 </script>
 
 <template>
-  <div class="codemirror-component">
-    <RouterLink :to="{ name: 'home' }">Go back</RouterLink>
-    <div class="codemirror-input-output">
-      <code-mirror class="js-input" v-model="value" :lang="java()" basic />
+  <header class="header">
+    <RouterLink class="logo" :to="{ name: 'home' }">futurama</RouterLink>
+    <div class="burger-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" fill="none">
+        <path
+            d="M4 7C4 6.44771 4.44772 6 5 6H24C24.5523 6 25 6.44771 25 7C25 7.55229 24.5523 8 24 8H5C4.44772 8 4 7.55229 4 7Z"
+            fill="#000000"
+        />
+        <path
+            d="M4 13.9998C4 13.4475 4.44772 12.9997 5 12.9997L16 13C16.5523 13 17 13.4477 17 14C17 14.5523 16.5523 15 16 15L5 14.9998C4.44772 14.9998 4 14.552 4 13.9998Z"
+            fill="#000000"
+        />
+        <path
+            d="M5 19.9998C4.44772 19.9998 4 20.4475 4 20.9998C4 21.552 4.44772 21.9997 5 21.9997H22C22.5523 21.9997 23 21.552 23 20.9998C23 20.4475 22.5523 19.9998 22 19.9998H5Z"
+            fill="#000000"
+        />
+      </svg>
     </div>
-    <div class="codemirror-input-output">
-      <textarea v-model="value" rows="10" class="form-control"></textarea>
+  </header>
+  <div class="codemirror-component">
+    <div>
+      <code-mirror class="codemirror" v-model="value" :lang="java()" basic />
     </div>
   </div>
 </template>
 
 <style>
-.codemirror-component {
-}
-
-.codemirror-component .js-input {
-  color: black;
-  background-color: white;
-}
-
-.codemirror-input-output {
+.header {
+  height: 50px;
+  background-color: #faa307;
   display: flex;
-  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  color: #181818;
+  font-size: 25px;
+  font-weight: 400;
+  font-family: 'Fascinate Inline', sans-serif;
+  text-transform: uppercase;
+  margin-left: 10px;
+}
+
+.burger-icon {
+  margin-right: 5px;
+  transform: scale(-1, 1);
+  width: 50px;
+  height: 50px;
+}
+
+.codemirror-component {
+  width: 100vw;
+  min-height: 800px;
+  background: #faa307;
+}
+
+.codemirror {
+  color: #181818;
+  background-color: #e7e7e7;
 }
 </style>
