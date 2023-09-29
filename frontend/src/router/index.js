@@ -4,6 +4,7 @@ import Episodes from '@/views/Episodes.vue'
 import Characters from '@/views/Characters.vue'
 import Shop from '@/views/Shop.vue'
 import About from '@/views/About.vue'
+import Codemirror from '@/views/Codemirror.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -32,6 +33,11 @@ const router = createRouter({
       path: '/about',
       name: 'about',
       component: About
+    },
+    {
+      path: '/codemirror',
+      name: 'codemirror',
+      component: Codemirror
     }
   ]
 })
