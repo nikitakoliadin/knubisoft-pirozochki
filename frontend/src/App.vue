@@ -1,6 +1,4 @@
-<script setup>
-
-</script>
+<script setup></script>
 <script>
 export default {
   data() {
@@ -57,10 +55,6 @@ export default {
   max-width: 1920px;
   padding: 0 0;
   margin: 0;
-}
-
-#app a {
-  text-decoration: none;
 }
 
 body {
