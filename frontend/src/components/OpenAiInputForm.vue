@@ -34,7 +34,7 @@ export default {
   flex-direction: column;
   align-items: stretch;
   margin-bottom: 30px;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Archivo', 'Archivo Placeholder', sans-serif;
 }
 
 .input-form textarea {

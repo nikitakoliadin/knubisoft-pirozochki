@@ -36,6 +36,6 @@ export default {
   justify-content: flex-start;
   min-height: 100vh;
   padding-top: 5%;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Archivo', 'Archivo Placeholder', sans-serif;
 }
 </style>

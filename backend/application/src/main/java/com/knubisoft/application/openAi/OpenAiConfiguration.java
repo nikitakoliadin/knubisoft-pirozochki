@@ -10,21 +10,28 @@ import java.time.Duration;
 
 @Configuration
 public class OpenAiConfiguration {
-    private static final Integer MINUTES = 5;
-    private static final Double TEMPERATURE = 0.5;
-
     @Value("${spring.ai.openai.api-key}")
     private String openAiToken;
+    @Value("${spring.ai.openai.duration}")
+
+    private Integer seconds;
+    @Value("${spring.ai.openai.temperature}")
+
+    private Double temperature;
+    @Value("${spring.ai.openai.model}")
+
+    private String model;
 
     @Bean
     public OpenAiService openAiService() {
-        return new OpenAiService(openAiToken, Duration.ofMinutes(MINUTES));
+        return new OpenAiService(openAiToken, Duration.ofMinutes(seconds));
     }
 
     @Bean
     public OpenAiClient openAiClient(final OpenAiService aiService) {
         OpenAiClient aiClient = new OpenAiClient(aiService);
-        aiClient.setTemperature(TEMPERATURE);
+        aiClient.setTemperature(temperature);
+        aiClient.setModel(model);
         return aiClient;
     }
 }

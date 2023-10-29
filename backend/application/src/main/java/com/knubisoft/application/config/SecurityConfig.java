@@ -64,12 +64,17 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    //CHECKSTYLE:OFF
     @Bean
     public CorsFilter corsFilter() {
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         final CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(false);
+        addAllowedOrigins(config);
+        source.registerCorsConfiguration("/**", config);
+        return new CorsFilter(source);
+    }
+
+    private void addAllowedOrigins(final CorsConfiguration config) {
         config.addAllowedOrigin("*");
         config.addAllowedHeader("*");
         config.addAllowedMethod("OPTIONS");
@@ -79,9 +84,6 @@ public class SecurityConfig {
         config.addAllowedMethod("POST");
         config.addAllowedMethod("DELETE");
         config.addAllowedMethod("PATCH");
-        source.registerCorsConfiguration("/**", config);
-        return new CorsFilter(source);
     }
-    //CHECKSTYLE:ON
 }
 

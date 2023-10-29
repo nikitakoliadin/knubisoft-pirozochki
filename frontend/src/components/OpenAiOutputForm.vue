@@ -26,7 +26,7 @@ export default {
   border-radius: 8px;
   width: 100%;
   max-width: 600px;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Archivo', 'Archivo Placeholder', sans-serif;
 }
 
 .output-form h3 {
