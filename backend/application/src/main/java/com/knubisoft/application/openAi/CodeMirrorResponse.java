@@ -8,5 +8,6 @@ import lombok.Setter;
 @Setter
 @Getter
 public class CodeMirrorResponse {
-    private String code;
+    private int statusCode;
+    private String suggestions;
 }
