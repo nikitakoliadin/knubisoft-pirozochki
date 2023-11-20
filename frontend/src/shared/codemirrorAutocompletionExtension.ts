@@ -1,26 +1,150 @@
 import { Extension } from '@codemirror/state'
-import { autocompletion, CompletionContext, CompletionResult } from '@codemirror/autocomplete'
+import {
+  autocompletion,
+  Completion,
+  CompletionContext,
+  CompletionInfo,
+  CompletionResult,
+  insertCompletionText,
+  snippetCompletion
+} from '@codemirror/autocomplete'
+import { EditorView } from 'codemirror'
+import CodemirrorApi from "@/api/CodemirrorApi";
+
+const codemirrorApi = new CodemirrorApi()
 
 interface CodeMirrorAutocompletionExtensionConfig {
   language: string
 }
 let codeMirrorAutocompletionExtensionConfig: CodeMirrorAutocompletionExtensionConfig | undefined
 
-function myCompletions(context: CompletionContext) {
-  let word = context.matchBefore(/\w*/)
+const generalAutocompletionOptions = async (): Promise<Completion[]> => {
+  const generalOptions = [
+    snippetCompletion('/*\n* ${}\n*/', { label: '/*', detail: 'multi-line comment' }),
+    snippetCompletion('@AI_START\n  ${}\n@AI_END', { label: '@AI_START', detail: 'AI completion' })
+  ]
+  return generalOptions.map((option) => ({
+    ...option,
+    type: 'generalAutocompletionOption',
+    boost: 0,
+    section: {
+      name: 'General Options'
+    }
+  }))
+}
 
-  if (word === null || (word.from == word.to && !context.explicit)) {
-    return null
-  }
+const aiAutocompletionOptions = async (context: CompletionContext): Promise<Completion[]> => {
+  const aiOptions: Completion[] = []
+  const aiCompletionRequirement = await extractAiCompletionRequirement(context)
+  const aiCompletionOptions = await codemirrorApi.getAiAutocompletion(aiCompletionRequirement)
+  if (aiCompletionOptions.statusCode === 200) aiOptions.push({ label: aiCompletionOptions.suggestions })
+  return aiOptions.map((option) => ({
+    ...option,
+    type: 'aiAutocompletionOption',
+    boost: 2,
+    info: getAiOptionPreview,
+    section: {
+      name: 'AI Options'
+    },
+    apply: async (view: EditorView, completion: Completion) => {
+      if (context.state.selection.main.from === context.state.selection.main.to) {
+        const line = context.state.doc.lineAt(context.state.selection.main.from)
+        view.dispatch(
+          insertCompletionText(
+            view.state,
+            await extractLabelWithoutFormatting(completion),
+            line.from,
+            line.to
+          )
+        )
+      } else {
+        view.dispatch(
+          insertCompletionText(
+            view.state,
+            await extractLabelWithoutFormatting(completion),
+            context.state.selection.main.from,
+            context.state.selection.main.to
+          )
+        )
+      }
+    }
+  }))
+}
 
-  return {
-    from: word.from,
-    options: [
-      { label: 'match', type: 'keyword' },
-      { label: 'hello', type: 'variable', info: '(World)' },
-      { label: 'magic', type: 'text', apply: '⠁⭒*.✩.*⭒⠁', detail: 'macro' }
-    ]
-  }
+const myCompletions = async (context: CompletionContext): Promise<CompletionResult | null> => {
+  const currentWord = context.matchBefore(/[\p{Alphabetic}\p{Number}_@/*]*/u)
+  if (currentWord === null) return null
+  if (context.explicit)
+    return {
+      from: context.pos,
+      options: await aiAutocompletionOptions(context)
+    }
+  if (!context.explicit)
+    return {
+      from: currentWord.from,
+      options: await generalAutocompletionOptions()
+    }
+  return null
+}
+
+const getAiOptionPreview = async (completion: Completion): Promise<CompletionInfo> => {
+  const dom = document.createElement('div')
+  dom.style.whiteSpace = 'pre-wrap'
+  dom.style.maxHeight = '50vh'
+  dom.style.overflow = 'auto'
+  dom.style.userSelect = 'none'
+  dom.innerHTML = completion.label
+  return { dom: dom }
+}
+
+const extractLabelWithoutFormatting = async (completion: Completion): Promise<string> => {
+  return completion.label.replaceAll('<strong>', '').replaceAll('</strong>', '')
+}
+
+const extractAiCompletionRequirement = async (context: CompletionContext): Promise<string> => {
+  const aiCompletionRequirementBlockStartIndex = await findAiCompletionRequirementBlockStartIndex(
+    context
+  )
+  const aiCompletionRequirementBlockEndIndex = await findAiCompletionRequirementBlockEndIndex(
+    context
+  )
+  if (aiCompletionRequirementBlockStartIndex === -1 || aiCompletionRequirementBlockEndIndex === -1)
+    return ''
+  const aiCompletionRequirementBlock = context.state.doc
+    .toString()
+    .substring(aiCompletionRequirementBlockStartIndex, aiCompletionRequirementBlockEndIndex)
+  return aiCompletionRequirementBlock.replace('@AI_START', '').replace('@AI_END', '').trim()
+}
+const findAiCompletionRequirementBlockEndIndex = async (
+  context: CompletionContext
+): Promise<number> => {
+  let aiCompletionRequirementBlockEndIndex = context.state.doc
+    .toString()
+    .substring(context.pos)
+    .indexOf('@AI_END')
+  if (aiCompletionRequirementBlockEndIndex !== -1)
+    aiCompletionRequirementBlockEndIndex += context.pos + '@AI_END'.length
+  return aiCompletionRequirementBlockEndIndex
+}
+
+const findAiCompletionRequirementBlockStartIndex = async (
+  context: CompletionContext
+): Promise<number> => {
+  return context.state.doc.toString().substring(0, context.pos).lastIndexOf('@AI_START')
+}
+
+const isInsideAiCompletionRequirementBlock = async (
+  context: CompletionContext
+): Promise<boolean> => {
+  const aiCompletionRequirementBlockStartIndex = await findAiCompletionRequirementBlockStartIndex(
+    context
+  )
+  const aiCompletionRequirementBlockEndIndex = await findAiCompletionRequirementBlockEndIndex(
+    context
+  )
+  return (
+    aiCompletionRequirementBlockStartIndex !== -1 && aiCompletionRequirementBlockEndIndex !== -1
+  )
 }
 
 const customAutocompletion = async (
