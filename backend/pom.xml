@@ -23,6 +23,7 @@
         <module>admin</module>
         <module>config</module>
         <module>rabbitConsumer</module>
+        <module>spring-cloud-contract</module>
     </modules>
 
     <build>
