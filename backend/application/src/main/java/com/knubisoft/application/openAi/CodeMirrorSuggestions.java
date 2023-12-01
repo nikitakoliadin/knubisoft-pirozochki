@@ -5,9 +5,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @RequiredArgsConstructor
-@Setter
 @Getter
-public class CodeMirrorResponse {
-    private int statusCode;
-    private CodeMirrorSuggestions suggestions;
+@Setter
+public class CodeMirrorSuggestions {
+    private String firstSuggestion;
+    private String secondSuggestion;
+    private String thirdSuggestion;
 }

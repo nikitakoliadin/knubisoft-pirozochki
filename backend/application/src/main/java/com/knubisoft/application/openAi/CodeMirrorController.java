@@ -14,11 +14,8 @@ public class CodeMirrorController {
     private final CodeMirrorService codeMirrorService;
 
     @PostMapping("/code")
-    public ResponseEntity<CodeMirrorResponse> generateCode(@RequestBody final String request) {
-        String code = codeMirrorService.generateCode(request);
-        CodeMirrorResponse codeMirrorResponse = codeMirrorService.createCodeMirrorResponse(code);
-        return ResponseEntity
-                .status(codeMirrorResponse.getStatusCode())
-                .body(codeMirrorResponse);
+    public ResponseEntity<Object> generateCode(@RequestBody final CodeMirrorRequest request) {
+        CodeMirrorResponse response = codeMirrorService.generateCodeSuggestions(request);
+        return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 }
