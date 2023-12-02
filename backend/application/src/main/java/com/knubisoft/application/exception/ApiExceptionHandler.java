@@ -23,4 +23,14 @@ public class ApiExceptionHandler {
         AppException savedException = exceptionRepo.insert(appException);
         return new ResponseEntity<>(savedException, HttpStatus.I_AM_A_TEAPOT);
     }
+
+    @ExceptionHandler(value = {CodeNotFoundException.class, InvalidLanguageException.class})
+    public ResponseEntity<AppException> handleCustomExceptions(final RuntimeException e) {
+        AppException appException = new AppException();
+        appException.setName(e.getClass().getName());
+        appException.setMessage(e.getMessage());
+        appException.setCode(HttpStatus.BAD_REQUEST.value());
+        AppException savedException = exceptionRepo.insert(appException);
+        return new ResponseEntity<>(savedException, HttpStatus.BAD_REQUEST);
+    }
 }
