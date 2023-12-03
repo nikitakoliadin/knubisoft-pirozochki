@@ -15,14 +15,13 @@ import java.util.regex.Pattern;
 @RequiredArgsConstructor
 public class CodeMirrorServiceImpl implements CodeMirrorService {
     private final OpenAiClient openAiClient;
-    private final int suggestionAmount = 3;
 
     @Override
     public CodeMirrorResponse generateCodeSuggestions(final CodeMirrorRequest request) {
         String modifiedPrompt = String.format(CodeMirrorConstants.MODIFY_PROMPTS,
                 request.getLanguage(), request.getPrompt());
         String openAiResponse = getOpenAiResponse(modifiedPrompt);
-        CodeMirrorSuggestions codeSuggestions = extractCodeExamples(openAiResponse, request.getLanguage());
+        List<String> codeSuggestions = extractExamples(openAiResponse, request.getLanguage());
         return buildCodeMirrorResponse(codeSuggestions);
     }
 
@@ -30,34 +29,21 @@ public class CodeMirrorServiceImpl implements CodeMirrorService {
         return openAiClient.generate(prompt);
     }
 
-    private CodeMirrorSuggestions extractCodeExamples(final String response, final String language) {
-        List<String> examples = extractExamples(response, language);
-        if (examples.size() < suggestionAmount) {
-            throw new CodeNotFoundException();
-        }
-        return buildCodeSuggestions(examples);
-    }
-
     private List<String> extractExamples(final String response, final String language) {
         List<String> examples = new ArrayList<>();
         Pattern pattern = Pattern.compile(
-                "Example \\d+:.*?```" + language + "\\n(.*?)```", Pattern.DOTALL);
+                "Example \\d+:.*?```" + language.toLowerCase() + "\\n(.*?)```", Pattern.DOTALL);
         Matcher matcher = pattern.matcher(response);
         while (matcher.find()) {
             examples.add(matcher.group(1).trim());
         }
+        if (examples.isEmpty()) {
+            throw new CodeNotFoundException();
+        }
         return examples;
     }
 
-    private CodeMirrorSuggestions buildCodeSuggestions(final List<String> examples) {
-        CodeMirrorSuggestions codeSuggestions = new CodeMirrorSuggestions();
-        codeSuggestions.setFirstSuggestion(examples.get(0));
-        codeSuggestions.setSecondSuggestion(examples.get(1));
-        codeSuggestions.setThirdSuggestion(examples.get(2));
-        return codeSuggestions;
-    }
-
-    private CodeMirrorResponse buildCodeMirrorResponse(final CodeMirrorSuggestions codeSuggestions) {
+    private CodeMirrorResponse buildCodeMirrorResponse(final List<String> codeSuggestions) {
         CodeMirrorResponse codeMirrorResponse = new CodeMirrorResponse();
         codeMirrorResponse.setStatusCode(HttpStatus.OK.value());
         codeMirrorResponse.setSuggestions(codeSuggestions);
