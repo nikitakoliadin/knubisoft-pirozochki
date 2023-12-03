@@ -13,15 +13,15 @@ export default {
     return {
       prompt: '',
       api: new OpenAiApi()
-    };
+    }
   },
   methods: {
     async submitPrompt() {
       try {
-        const result = await this.api.sendPrompt(this.prompt);
-        this.$emit('updateResponse', result.data);
+        const result = await this.api.sendPrompt(this.prompt)
+        this.$emit('updateResponse', result.data)
       } catch (error) {
-        console.error('error', error);
+        console.error('error', error)
       }
     }
   }
@@ -49,14 +49,14 @@ export default {
 }
 
 .input-form textarea:focus {
-  border-color: #007BFF;
+  border-color: #007bff;
   outline: none;
 }
 
 .input-form button {
   align-self: center;
   padding: 10px 20px;
-  background-color: #007BFF;
+  background-color: #007bff;
   color: #fff;
   font-size: 16px;
   border: none;

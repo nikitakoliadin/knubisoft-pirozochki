@@ -1,6 +1,5 @@
 package com.knubisoft.application.config;
 
-import com.knubisoft.application.exception.CustomAuthenticationFailureHandler;
 import com.knubisoft.application.user.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -23,13 +22,10 @@ import org.springframework.web.filter.CorsFilter;
 public class SecurityConfig {
 
     private final UserDetailsServiceImpl userDetailsService;
-    private final CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
 
     @Autowired
-    public SecurityConfig(final UserDetailsServiceImpl userDetailsService,
-                          final CustomAuthenticationFailureHandler customAuthenticationFailureHandler) {
+    public SecurityConfig(final UserDetailsServiceImpl userDetailsService) {
         this.userDetailsService = userDetailsService;
-        this.customAuthenticationFailureHandler = customAuthenticationFailureHandler;
     }
 
     //CHECKSTYLE:OFF

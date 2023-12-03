@@ -5,7 +5,7 @@ import Characters from '@/views/Characters.vue'
 import Shop from '@/views/Shop.vue'
 import About from '@/views/About.vue'
 import Codemirror from '@/views/Codemirror.vue'
-import OpenAi from "@/views/OpenAi.vue";
+import OpenAi from '@/views/OpenAi.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),

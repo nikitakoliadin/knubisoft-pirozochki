@@ -5,10 +5,9 @@
   </div>
 </template>
 
-
 <script>
-import OpenAiInputForm from '@/components/OpenAiInputForm.vue';
-import OpenAiOutputForm from '@/components/OpenAiOutputForm.vue';
+import OpenAiInputForm from '@/components/OpenAiInputForm.vue'
+import OpenAiOutputForm from '@/components/OpenAiOutputForm.vue'
 
 export default {
   components: {
@@ -18,11 +17,11 @@ export default {
   data() {
     return {
       response: null
-    };
+    }
   },
   methods: {
     updateResponse(newResponse) {
-      this.response = newResponse;
+      this.response = newResponse
     }
   }
 }

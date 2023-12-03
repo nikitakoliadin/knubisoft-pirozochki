@@ -1,15 +1,15 @@
 package com.knubisoft.application.openAi;
 
+import com.knubisoft.application.exception.CodeNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.openai.client.OpenAiClient;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static com.knubisoft.application.openAi.CodeMirrorConstants.NO_CODE_FOUND_MESSAGE;
-import static com.knubisoft.application.openAi.CodeMirrorConstants.NO_CODE_SUGGESTION;
 
 @Service
 @RequiredArgsConstructor
@@ -17,30 +17,36 @@ public class CodeMirrorServiceImpl implements CodeMirrorService {
     private final OpenAiClient openAiClient;
 
     @Override
-    public String generateCode(final String request) {
-        String openAiResponse = openAiClient.generate(request);
-        return extractCode(openAiResponse);
+    public CodeMirrorResponse generateCodeSuggestions(final CodeMirrorRequest request) {
+        String modifiedPrompt = String.format(CodeMirrorConstants.MODIFY_PROMPTS,
+                request.getLanguage(), request.getPrompt());
+        String openAiResponse = getOpenAiResponse(modifiedPrompt);
+        List<String> codeSuggestions = extractExamples(openAiResponse, request.getLanguage());
+        return buildCodeMirrorResponse(codeSuggestions);
     }
 
-    @Override
-    public CodeMirrorResponse createCodeMirrorResponse(final String code) {
-        CodeMirrorResponse codeMirrorResponse = new CodeMirrorResponse();
-        if (code.equals(NO_CODE_FOUND_MESSAGE)) {
-            codeMirrorResponse.setStatusCode(HttpStatus.BAD_REQUEST.value());
-            codeMirrorResponse.setSuggestions(NO_CODE_SUGGESTION);
-        } else {
-            codeMirrorResponse.setStatusCode(HttpStatus.OK.value());
-            codeMirrorResponse.setSuggestions(code);
-        }
-        return codeMirrorResponse;
+    private String getOpenAiResponse(final String prompt) {
+        return openAiClient.generate(prompt);
     }
 
-    public String extractCode(final String response) {
-        Pattern pattern = Pattern.compile("```\\w*\\n(.*?)\\n```", Pattern.DOTALL);
+    private List<String> extractExamples(final String response, final String language) {
+        List<String> examples = new ArrayList<>();
+        Pattern pattern = Pattern.compile(
+                "Example \\d+:.*?```" + language.toLowerCase() + "\\n(.*?)```", Pattern.DOTALL);
         Matcher matcher = pattern.matcher(response);
-        if (matcher.find()) {
-            return matcher.group(1);
+        while (matcher.find()) {
+            examples.add(matcher.group(1).trim());
         }
-        return NO_CODE_FOUND_MESSAGE;
+        if (examples.isEmpty()) {
+            throw new CodeNotFoundException();
+        }
+        return examples;
+    }
+
+    private CodeMirrorResponse buildCodeMirrorResponse(final List<String> codeSuggestions) {
+        CodeMirrorResponse codeMirrorResponse = new CodeMirrorResponse();
+        codeMirrorResponse.setStatusCode(HttpStatus.OK.value());
+        codeMirrorResponse.setSuggestions(codeSuggestions);
+        return codeMirrorResponse;
     }
 }

@@ -4,10 +4,12 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Setter
 @Getter
 public class CodeMirrorResponse {
     private int statusCode;
-    private String suggestions;
+    private List<String> suggestions;
 }
