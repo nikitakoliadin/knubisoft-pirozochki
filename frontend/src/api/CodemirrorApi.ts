@@ -7,7 +7,6 @@ export default class CodemirrorApi extends BaseApi{
 
     constructor() {
         super()
-        this.instance = axios.create();
     }
 
     getAiAutocompletion = async (request: AIRequest): Promise<AIResponse | undefined> => {
