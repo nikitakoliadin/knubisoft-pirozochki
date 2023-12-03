@@ -1,9 +1,7 @@
 package com.knubisoft.application.openAi;
 
 import com.knubisoft.application.exception.CodeNotFoundException;
-import com.knubisoft.application.exception.InvalidLanguageException;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.EnumUtils;
 import org.springframework.ai.openai.client.OpenAiClient;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -21,7 +19,6 @@ public class CodeMirrorServiceImpl implements CodeMirrorService {
 
     @Override
     public CodeMirrorResponse generateCodeSuggestions(final CodeMirrorRequest request) {
-        validateLanguage(request);
         String modifiedPrompt = String.format(CodeMirrorConstants.MODIFY_PROMPTS,
                 request.getLanguage(), request.getPrompt());
         String openAiResponse = getOpenAiResponse(modifiedPrompt);
@@ -29,18 +26,11 @@ public class CodeMirrorServiceImpl implements CodeMirrorService {
         return buildCodeMirrorResponse(codeSuggestions);
     }
 
-    private void validateLanguage(final CodeMirrorRequest request) {
-        if (request.getLanguage() == null
-                || !EnumUtils.isValidEnum(ProgrammingLanguage.class, request.getLanguage().name())) {
-            throw new InvalidLanguageException();
-        }
-    }
-
     private String getOpenAiResponse(final String prompt) {
         return openAiClient.generate(prompt);
     }
 
-    private CodeMirrorSuggestions extractCodeExamples(final String response, final ProgrammingLanguage language) {
+    private CodeMirrorSuggestions extractCodeExamples(final String response, final String language) {
         List<String> examples = extractExamples(response, language);
         if (examples.size() < suggestionAmount) {
             throw new CodeNotFoundException();
@@ -48,10 +38,10 @@ public class CodeMirrorServiceImpl implements CodeMirrorService {
         return buildCodeSuggestions(examples);
     }
 
-    private List<String> extractExamples(final String response, final ProgrammingLanguage language) {
+    private List<String> extractExamples(final String response, final String language) {
         List<String> examples = new ArrayList<>();
         Pattern pattern = Pattern.compile(
-                "Example \\d+:.*?```" + language.name().toLowerCase() + "\\n(.*?)```", Pattern.DOTALL);
+                "Example \\d+:.*?```" + language + "\\n(.*?)```", Pattern.DOTALL);
         Matcher matcher = pattern.matcher(response);
         while (matcher.find()) {
             examples.add(matcher.group(1).trim());

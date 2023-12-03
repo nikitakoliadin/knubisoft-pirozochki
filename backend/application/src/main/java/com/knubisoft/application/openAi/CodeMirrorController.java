@@ -1,5 +1,6 @@
 package com.knubisoft.application.openAi;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,7 +15,7 @@ public class CodeMirrorController {
     private final CodeMirrorService codeMirrorService;
 
     @PostMapping("/code")
-    public ResponseEntity<Object> generateCode(@RequestBody final CodeMirrorRequest request) {
+    public ResponseEntity<Object> generateCode(@Valid @RequestBody final CodeMirrorRequest request) {
         CodeMirrorResponse response = codeMirrorService.generateCodeSuggestions(request);
         return ResponseEntity.status(response.getStatusCode()).body(response);
     }
