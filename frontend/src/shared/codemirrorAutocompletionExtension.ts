@@ -9,11 +9,12 @@ import {
   snippetCompletion
 } from '@codemirror/autocomplete'
 import { EditorView } from 'codemirror'
-import CodemirrorApi from "@/api/CodemirrorApi";
-import AIRequest from "@/api/AIRequest";
+import CodemirrorApi from '@/api/CodemirrorApi'
+import AIRequest from '@/api/AIRequest'
+import { ref } from 'vue'
 
 const codemirrorApi = new CodemirrorApi()
-
+export const loading = ref(false)
 interface CodeMirrorAutocompletionExtensionConfig {
   language: string
 }
@@ -37,11 +38,16 @@ const generalAutocompletionOptions = async (): Promise<Completion[]> => {
 const aiAutocompletionOptions = async (context: CompletionContext): Promise<Completion[]> => {
   const aiOptions: Completion[] = []
   const aiCompletionRequirement = await extractAiCompletionRequirement(context)
-  const request = new AIRequest(codeMirrorAutocompletionExtensionConfig?.language, aiCompletionRequirement)
+  const request = new AIRequest(
+    codeMirrorAutocompletionExtensionConfig?.language,
+    aiCompletionRequirement
+  )
+  loading.value = true
   const aiCompletionOptions = await codemirrorApi.getAiAutocompletion(request)
+  loading.value = false
   if (aiCompletionOptions?.statusCode === 200) {
-    aiCompletionOptions.suggestions.forEach(option => {
-      aiOptions.push({label: option})
+    aiCompletionOptions.suggestions.forEach((option) => {
+      aiOptions.push({ label: option })
     })
   }
   return aiOptions.map((option) => ({

@@ -5,7 +5,11 @@ import CodeMirror from 'vue-codemirror6'
 import { java } from '@codemirror/lang-java'
 import { RouterLink } from 'vue-router'
 import { Extension } from '@codemirror/state'
-import { codemirrorAutocompletionExtension } from '@/shared/codemirrorAutocompletionExtension'
+import {
+  codemirrorAutocompletionExtension,
+  loading
+} from '@/shared/codemirrorAutocompletionExtension'
+import ProgressSpinner from 'primevue/progressspinner'
 
 const extensions = computed(() => {
   const extensionList: Extension[] = []
@@ -45,6 +49,9 @@ const value =
     </div>
   </header>
   <div class="codemirror-component">
+    <div class="loading" v-show="loading">
+      <ProgressSpinner class="spinner" />
+    </div>
     <div>
       <code-mirror
         class="codemirror"
@@ -77,6 +84,17 @@ const value =
   font-family: 'Fascinate Inline', sans-serif;
   text-transform: uppercase;
   margin-left: 10px;
+}
+.loading {
+  position: fixed;
+  top: 18%;
+  left: 43%;
+  width: 200px;
+  height: 200px;
+  .spinner {
+    width: 100%;
+    height: 100%;
+  }
 }
 
 .burger-icon {
