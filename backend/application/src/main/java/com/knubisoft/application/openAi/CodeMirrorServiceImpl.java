@@ -17,6 +17,7 @@ import java.util.regex.Pattern;
 @RequiredArgsConstructor
 public class CodeMirrorServiceImpl implements CodeMirrorService {
     private final OpenAiClient openAiClient;
+    private final int suggestionAmount = 3;
 
     @Override
     public CodeMirrorResponse generateCodeSuggestions(final CodeMirrorRequest request) {
@@ -41,7 +42,7 @@ public class CodeMirrorServiceImpl implements CodeMirrorService {
 
     private CodeMirrorSuggestions extractCodeExamples(final String response, final ProgrammingLanguage language) {
         List<String> examples = extractExamples(response, language);
-        if (examples.size() < 3) {
+        if (examples.size() < suggestionAmount) {
             throw new CodeNotFoundException();
         }
         return buildCodeSuggestions(examples);

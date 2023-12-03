@@ -1,14 +1,16 @@
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import BaseApi from "@/api/BaseApi.js"
+import AIRequest from "@/api/AIRequest";
 
 export default class CodemirrorApi extends BaseApi{
     private instance: AxiosInstance;
 
     constructor() {
         super()
+        this.instance = axios.create();
     }
 
-    getAiAutocompletion = async (request: String): Promise<AIResponse> => {
+    getAiAutocompletion = async (request: AIRequest): Promise<AIResponse | undefined> => {
         try {
             const response: AxiosResponse<AIResponse> = await this.instance.post('/codemirror/code', request)
             return response.data;
@@ -23,6 +25,6 @@ export default class CodemirrorApi extends BaseApi{
 }
 
 interface AIResponse {
-    statusCode: int
-    suggestions: string
+    statusCode: number
+    suggestions: string[]
 }
