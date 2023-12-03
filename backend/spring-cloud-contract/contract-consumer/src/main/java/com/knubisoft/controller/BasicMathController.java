@@ -17,7 +17,7 @@ public class BasicMathController {
     private RestTemplate restTemplate;
 
     @GetMapping("/calculate")
-    public String checkOddAndEven(@RequestParam("number") Integer number) {
+    public String checkOddAndEven(final @RequestParam("number") Integer number) {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Content-Type", "application/json");
         ResponseEntity<String> responseEntity = restTemplate.exchange(
