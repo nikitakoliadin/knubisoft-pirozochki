@@ -48,6 +48,7 @@ public class SecurityConfig {
                         .requestMatchers("/cards").permitAll()
                         .requestMatchers("/openAi/prompt").permitAll()
                         .requestMatchers("/codemirror/code").permitAll()
+                        .requestMatchers("/codemirror/stream").permitAll()
                         .anyRequest().authenticated())
                 .authenticationManager(authenticationManager)
                 .httpBasic(httpSecurityHttpBasicConfigurer -> {

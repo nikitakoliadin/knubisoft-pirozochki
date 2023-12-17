@@ -11,11 +11,57 @@ import {
 } from '@/shared/codemirrorAutocompletionExtension'
 import ProgressSpinner from 'primevue/progressspinner'
 
-const extensions = computed(() => {
-  const extensionList: Extension[] = []
-  extensionList.push(codemirrorAutocompletionExtension)
-  return extensionList
-})
+// const extensions = computed(() => {
+//   const extensionList: Extension[] = []
+//   extensionList.push(codemirrorAutocompletionExtension)
+//   return extensionList
+// })
+
+const message = 'generate java code';
+let eventSource: EventSource | null;
+
+function connectToSSE() {
+  // Create the EventSource object to connect to the SSE endpoint
+  eventSource = new EventSource('http://127.0.0.1:8080/api/codemirror/stream', {
+    withCredentials: true // Depending on your authentication setup
+  });
+
+  // Event listener for when a new SSE event is received
+  eventSource.addEventListener('message', (event: MessageEvent) => {
+    const data = JSON.parse(event.data); // Assuming data is sent as JSON
+    // Handle the received data as needed
+    console.log('Received SSE:', data);
+  });
+
+  // Send the initial message in the body to the SSE endpoint
+  fetch('http://127.0.0.1:8080/api/codemirror/stream', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      initialMessage: message
+    })
+  })
+    .then(response => {
+      // Handle the response as needed
+      console.log('Initial message sent:', response);
+    })
+    .catch(error => {
+      // Handle errors
+      console.error('Error sending initial message:', error);
+    });
+
+  disconnectFromSSE();
+}
+
+function disconnectFromSSE() {
+  // Close the EventSource connection when needed
+  if (eventSource) {
+    eventSource.close();
+    eventSource = null;
+  }
+}
 
 /** Demo code */
 const value =
@@ -55,10 +101,10 @@ const value =
     <div>
       <code-mirror
         class="codemirror"
-        v-model="value"
+        v-model="message"
         :lang="java()"
         basic
-        :extensions="extensions"
+        @keydown.ctrl.space="connectToSSE()"
       />
     </div>
   </div>
@@ -85,12 +131,14 @@ const value =
   text-transform: uppercase;
   margin-left: 10px;
 }
+
 .loading {
   position: fixed;
   top: 18%;
   left: 43%;
   width: 200px;
   height: 200px;
+
   .spinner {
     width: 100%;
     height: 100%;
