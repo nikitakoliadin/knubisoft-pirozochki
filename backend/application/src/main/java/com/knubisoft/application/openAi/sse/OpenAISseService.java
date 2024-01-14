@@ -10,10 +10,6 @@ import org.glassfish.jersey.media.sse.SseFeature;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 @Getter
 @Service
 public class OpenAISseService {
@@ -23,8 +19,6 @@ public class OpenAISseService {
     private String model;
     @Value("${spring.ai.openai.temperature}")
     private Double temperature;
-
-    private final List<String> events = Collections.synchronizedList(new ArrayList<>());
 
     public void processSSEEvents(ChunkConsumer chunkConsumer, String initialMessage) {
         Client client = ClientBuilder.newBuilder()
