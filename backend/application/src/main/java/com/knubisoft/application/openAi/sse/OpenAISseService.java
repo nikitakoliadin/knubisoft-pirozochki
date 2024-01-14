@@ -46,8 +46,7 @@ public class OpenAISseService {
     }
 
     private String getRequestJson(final String initialMessage) {
-        return
-                String.format("{\"model\": \"%s\", \"messages\": [{\"role\": \"user\", \"content\": \"%s\"}]," +
+        return String.format("{\"model\": \"%s\", \"messages\": [{\"role\": \"user\", \"content\": \"%s\"}]," +
                         " \"temperature\": %s, \"stream\": true}", model, initialMessage, temperature);
     }
 
