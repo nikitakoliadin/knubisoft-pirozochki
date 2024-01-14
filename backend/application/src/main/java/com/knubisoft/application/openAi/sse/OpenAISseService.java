@@ -46,8 +46,9 @@ public class OpenAISseService {
     }
 
     private String getRequestJson(final String initialMessage) {
-        return String.format("{\"model\": \"%s\", \"messages\": [{\"role\": \"user\", \"content\": \"%s\"}]," +
-                        " \"temperature\": %s, \"stream\": true}", model, initialMessage, temperature);
+        return
+           String.format("{\"model\": \"%s\", \"messages\": [{\"role\": \"user\", \"content\": \"%s\"}]," +
+                           " \"temperature\": %s, \"stream\": true}", model, initialMessage, temperature);
     }
 
     // Functional interface for consuming chunks
