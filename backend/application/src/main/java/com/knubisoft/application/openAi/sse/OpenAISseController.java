@@ -11,17 +11,22 @@ import reactor.core.publisher.Flux;
 @RestController
 @RequestMapping("/codemirror")
 public class OpenAISseController {
+
+    private final OpenAISseService openAISseService;
+
+    public OpenAISseController(OpenAISseService openAISseService) {
+        this.openAISseService = openAISseService;
+    }
+
     @PostMapping(value = "/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<ServerSentEvent<String>> streamOpenAI(@RequestBody String initialMessage) {
 
         return Flux.create(sink -> {
             // Create a new thread for SSE processing
             new Thread(() -> {
-                // Use OpenAIChatSSE class to handle SSE communication
-                OpenAISseService openAIChatSSE = new OpenAISseService(initialMessage);
-
                 // Process incoming SSE events and send them to the client
-                openAIChatSSE.processSSEEvents(chunk -> sink.next(ServerSentEvent.builder(chunk).build()));
+                openAISseService.processSSEEvents(
+                        chunk -> sink.next(ServerSentEvent.builder(chunk).build()), initialMessage);
 
                 // Complete the Flux when SSE connection is closed
                 sink.complete();

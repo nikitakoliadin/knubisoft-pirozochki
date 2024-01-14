@@ -1,70 +1,53 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import {computed, ref} from 'vue'
 
 import CodeMirror from 'vue-codemirror6'
-import { java } from '@codemirror/lang-java'
-import { RouterLink } from 'vue-router'
-import { Extension } from '@codemirror/state'
-import {
-  codemirrorAutocompletionExtension,
-  loading
-} from '@/shared/codemirrorAutocompletionExtension'
+import {java} from '@codemirror/lang-java'
+import {RouterLink} from 'vue-router'
+import {Extension} from '@codemirror/state'
+import {codemirrorAutocompletionExtension, loading} from '@/shared/codemirrorAutocompletionExtension'
 import ProgressSpinner from 'primevue/progressspinner'
 
-// const extensions = computed(() => {
-//   const extensionList: Extension[] = []
-//   extensionList.push(codemirrorAutocompletionExtension)
-//   return extensionList
-// })
+async function getAiStream() {
 
-const message = 'generate java code';
-let eventSource: EventSource | null;
-
-function connectToSSE() {
-  // Create the EventSource object to connect to the SSE endpoint
-  eventSource = new EventSource('http://127.0.0.1:8080/api/codemirror/stream', {
-    withCredentials: true // Depending on your authentication setup
-  });
-
-  // Event listener for when a new SSE event is received
-  eventSource.addEventListener('message', (event: MessageEvent) => {
-    const data = JSON.parse(event.data); // Assuming data is sent as JSON
-    // Handle the received data as needed
-    console.log('Received SSE:', data);
-  });
-
-  // Send the initial message in the body to the SSE endpoint
-  fetch('http://127.0.0.1:8080/api/codemirror/stream', {
+  await fetch('http://127.0.0.1:8080/api/codemirror/stream', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      initialMessage: message
-    })
+    headers: {'Content-Type': 'text/event-stream'},
+    body: initValue.value
+      .substring(initValue.value.indexOf("@AI_START"), initValue.value.indexOf("@AI_END"))
+      .replace("@AI_START", "").trim(),
   })
-    .then(response => {
-      // Handle the response as needed
-      console.log('Initial message sent:', response);
+    .then(async (response) => {
+      const reader = response.body.pipeThrough(new TextDecoderStream()).getReader();
+      initValue.value += "\n\n";
+
+      while (true) {
+        const {value, done} = await reader.read();
+        if (done) break;
+
+        const splitChunks = value.toString().split('data:');
+
+        for (let i = 0; i < splitChunks.length; i++) {
+          const piece = splitChunks[i].trim();
+          if (piece !== "[DONE]" && piece.length > 0) {
+            initValue.value += JSON.parse(piece).choices[0].delta?.content || "";
+          }
+        }
+      }
     })
-    .catch(error => {
-      // Handle errors
-      console.error('Error sending initial message:', error);
+    .catch((error) => {
+      console.error(error);
     });
-
-  disconnectFromSSE();
 }
 
-function disconnectFromSSE() {
-  // Close the EventSource connection when needed
-  if (eventSource) {
-    eventSource.close();
-    eventSource = null;
-  }
-}
+const extensions = computed(() => {
+  const extensionList: Extension[] = []
+  extensionList.push(codemirrorAutocompletionExtension)
+  return extensionList
+})
 
 /** Demo code */
-const value =
+const initValue =
   ref(`OperatingSystemMXBean bean = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
         try {
             Thread.sleep(FIVE_SECONDS);
@@ -101,10 +84,11 @@ const value =
     <div>
       <code-mirror
         class="codemirror"
-        v-model="message"
+        v-model="initValue"
         :lang="java()"
         basic
-        @keydown.ctrl.space="connectToSSE()"
+        :extensions="extensions"
+        @keydown.shift.space="getAiStream()"
       />
     </div>
   </div>

@@ -8,9 +8,14 @@ import org.glassfish.jersey.media.sse.EventInput;
 import org.glassfish.jersey.media.sse.InboundEvent;
 import org.glassfish.jersey.media.sse.SseFeature;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @Getter
+@Service
 public class OpenAISseService {
     @Value("${spring.ai.openai.api-key}")
     private String openAiToken;
@@ -18,18 +23,15 @@ public class OpenAISseService {
     private String model;
     @Value("${spring.ai.openai.temperature}")
     private Double temperature;
-    private final String initialMessage;
 
-    public OpenAISseService(String initialMessage) {
-        this.initialMessage = initialMessage;
-    }
+    private final List<String> events = Collections.synchronizedList(new ArrayList<>());
 
-    public void processSSEEvents(ChunkConsumer chunkConsumer) {
+    public void processSSEEvents(ChunkConsumer chunkConsumer, String initialMessage) {
         Client client = ClientBuilder.newBuilder()
                 .register(SseFeature.class)
                 .build();
 
-        WebTarget target = client.target("https://api.openai.com/v1/chat/completions/stream");
+        WebTarget target = client.target("https://api.openai.com/v1/chat/completions");
 
         EventInput eventInput = target
                 .request()
@@ -51,8 +53,8 @@ public class OpenAISseService {
 
     private String getRequestJson(final String initialMessage) {
         return
-           String.format("{\"model\": \"%s\", \"messages\": [{\"role\": \"user\", \"content\": \"%s\"}]," +
-                           " \"temperature\": \"%s\", \"stream\": true}", model, initialMessage, temperature);
+                String.format("{\"model\": \"%s\", \"messages\": [{\"role\": \"user\", \"content\": \"%s\"}]," +
+                        " \"temperature\": %s, \"stream\": true}", model, initialMessage, temperature);
     }
 
     // Functional interface for consuming chunks
