@@ -1,15 +1,44 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import {computed, ref} from 'vue'
 
 import CodeMirror from 'vue-codemirror6'
-import { java } from '@codemirror/lang-java'
-import { RouterLink } from 'vue-router'
-import { Extension } from '@codemirror/state'
-import {
-  codemirrorAutocompletionExtension,
-  loading
-} from '@/shared/codemirrorAutocompletionExtension'
+import {java} from '@codemirror/lang-java'
+import {RouterLink} from 'vue-router'
+import {Extension} from '@codemirror/state'
+import {codemirrorAutocompletionExtension, loading} from '@/shared/codemirrorAutocompletionExtension'
 import ProgressSpinner from 'primevue/progressspinner'
+
+async function getAiStream() {
+
+  await fetch('http://127.0.0.1:8080/api/codemirror/stream', {
+    method: 'POST',
+    headers: {'Content-Type': 'text/event-stream'},
+    body: initValue.value
+      .substring(initValue.value.indexOf("@AI_START"), initValue.value.indexOf("@AI_END"))
+      .replace("@AI_START", "").trim(),
+  })
+    .then(async (response) => {
+      const reader = response.body.pipeThrough(new TextDecoderStream()).getReader();
+      initValue.value += "\n\n";
+
+      while (true) {
+        const {value, done} = await reader.read();
+        if (done) break;
+
+        const splitChunks = value.toString().split('data:');
+
+        for (let i = 0; i < splitChunks.length; i++) {
+          const piece = splitChunks[i].trim();
+          if (piece !== "[DONE]" && piece.length > 0) {
+            initValue.value += JSON.parse(piece).choices[0].delta?.content || "";
+          }
+        }
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}
 
 const extensions = computed(() => {
   const extensionList: Extension[] = []
@@ -18,7 +47,7 @@ const extensions = computed(() => {
 })
 
 /** Demo code */
-const value =
+const initValue =
   ref(`OperatingSystemMXBean bean = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
         try {
             Thread.sleep(FIVE_SECONDS);
@@ -55,10 +84,11 @@ const value =
     <div>
       <code-mirror
         class="codemirror"
-        v-model="value"
+        v-model="initValue"
         :lang="java()"
         basic
         :extensions="extensions"
+        @keydown.shift.space="getAiStream()"
       />
     </div>
   </div>
@@ -85,12 +115,14 @@ const value =
   text-transform: uppercase;
   margin-left: 10px;
 }
+
 .loading {
   position: fixed;
   top: 18%;
   left: 43%;
   width: 200px;
   height: 200px;
+
   .spinner {
     width: 100%;
     height: 100%;
