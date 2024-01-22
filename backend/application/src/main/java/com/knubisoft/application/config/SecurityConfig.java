@@ -1,6 +1,5 @@
 package com.knubisoft.application.config;
 
-import com.knubisoft.application.exception.CustomAuthenticationFailureHandler;
 import com.knubisoft.application.user.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -13,6 +12,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 
 @EnableWebSecurity
@@ -20,13 +22,10 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     private final UserDetailsServiceImpl userDetailsService;
-    private final CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
 
     @Autowired
-    public SecurityConfig(final UserDetailsServiceImpl userDetailsService,
-                          final CustomAuthenticationFailureHandler customAuthenticationFailureHandler) {
+    public SecurityConfig(final UserDetailsServiceImpl userDetailsService) {
         this.userDetailsService = userDetailsService;
-        this.customAuthenticationFailureHandler = customAuthenticationFailureHandler;
     }
 
     //CHECKSTYLE:OFF
@@ -47,6 +46,8 @@ public class SecurityConfig {
                         .requestMatchers("/about").permitAll()
                         .requestMatchers("/faq").permitAll()
                         .requestMatchers("/cards").permitAll()
+                        .requestMatchers("/openAi/prompt").permitAll()
+                        .requestMatchers("/codemirror/**").permitAll()
                         .anyRequest().authenticated())
                 .authenticationManager(authenticationManager)
                 .httpBasic(httpSecurityHttpBasicConfigurer -> {
@@ -58,6 +59,28 @@ public class SecurityConfig {
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public CorsFilter corsFilter() {
+        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        final CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(false);
+        addAllowedOrigins(config);
+        source.registerCorsConfiguration("/**", config);
+        return new CorsFilter(source);
+    }
+
+    private void addAllowedOrigins(final CorsConfiguration config) {
+        config.addAllowedOrigin("*");
+        config.addAllowedHeader("*");
+        config.addAllowedMethod("OPTIONS");
+        config.addAllowedMethod("HEAD");
+        config.addAllowedMethod("GET");
+        config.addAllowedMethod("PUT");
+        config.addAllowedMethod("POST");
+        config.addAllowedMethod("DELETE");
+        config.addAllowedMethod("PATCH");
     }
 }
 

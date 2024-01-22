@@ -1,6 +1,4 @@
-<script setup>
-import HomeView from '@/views/HomeView.vue'
-</script>
+<script setup></script>
 <script>
 export default {
   data() {
@@ -58,6 +56,7 @@ export default {
   padding: 0 0;
   margin: 0;
 }
+
 body {
   place-items: unset;
 }

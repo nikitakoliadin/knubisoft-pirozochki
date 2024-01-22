@@ -10,9 +10,15 @@
     "format": "prettier --write src"
   },
   "dependencies": {
+    "@codemirror/autocomplete": "^6.9.1",
+    "@codemirror/lang-java": "^6.0.1",
     "axios": "^1.4.0",
     "pinia": "^2.1.4",
+    "primeflex": "^3.3.1",
+    "primeicons": "^6.0.1",
+    "primevue": "^3.42.0",
     "vue": "^3.3.4",
+    "vue-codemirror6": "^1.1.27",
     "vue-router": "^4.2.4"
   },
   "devDependencies": {
@@ -22,6 +28,7 @@
     "eslint": "^8.45.0",
     "eslint-plugin-vue": "^9.15.1",
     "prettier": "^3.0.0",
+    "typescript": "^5.2.2",
     "vite": "^4.4.6"
   }
 }

@@ -24,12 +24,14 @@ a,
 @media (min-width: 1024px) {
   body {
     display: flex;
-    place-items: center;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
   }
 
   #app {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
     padding: 0 2rem;
   }
 }
